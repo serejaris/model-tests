@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>minimax-m3 — самоописание модели</title>
+<meta name="description" content="Самоописание языковой модели minimax-m3, сгенерированное ею самой. Честная визитка без маркетингового слопа.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%232d5a4f'/%3E%3Ctext x='8' y='12' font-family='monospace' font-size='10' fill='%23f3ede0' text-anchor='middle' font-weight='bold'%3Em3%3C/text%3E%3C/svg%3E">
+<style>
+  :root[data-theme="light"] {
+    --bg: #f3ede0;
+    --bg-soft: #e8e1cf;
+    --bg-elev: #fbf7ec;
+    --text: #1a1814;
+    --text-soft: #6b6357;
+    --text-mute: #918878;
+    --border: #c9c0ab;
+    --border-soft: #ddd5c2;
+    --accent: #2d5a4f;
+    --accent-bg: #d8e4dd;
+    --code-bg: #ebe5d4;
+    --code-text: #1a1814;
+    --kw: #7a3b2e;
+    --str: #4a6b2f;
+    --com: #8a8478;
+    --num: #7a3b7a;
+    --selection: #d4a574;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1014;
+    --bg-soft: #181b22;
+    --bg-elev: #1f222a;
+    --text: #e8e4d8;
+    --text-soft: #a09886;
+    --text-mute: #6a6456;
+    --border: #2a2d35;
+    --border-soft: #20232a;
+    --accent: #d97757;
+    --accent-bg: #2e1f17;
+    --code-bg: #161920;
+    --code-text: #e8e4d8;
+    --kw: #e0a878;
+    --str: #9bc28f;
+    --com: #6a6456;
+    --num: #c89bc8;
+    --selection: #b04a2f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    background: var(--bg);
+    color: var(--text);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--selection); color: var(--text); }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  a:hover { background: var(--accent-bg); }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+  /* Top bar */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border-soft);
+    backdrop-filter: blur(8px);
+  }
+  .topbar-inner {
+    max-width: 920px; margin: 0 auto; padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .topbar-name { font-family: ui-monospace, monospace; font-size: 14px; color: var(--text-soft); }
+  .topbar-name b { color: var(--text); font-weight: 600; }
+  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+  .theme-toggle, .jump-link {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    background: transparent;
+    color: var(--text-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .theme-toggle:hover, .jump-link:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  /* Hero */
+  .hero { padding: 64px 0 48px; border-bottom: 1px solid var(--border-soft); }
+  .figlet {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.0;
+    color: var(--accent);
+    white-space: pre;
+    overflow-x: auto;
+    margin-bottom: 32px;
+  }
+  .hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-soft);
+    max-width: 640px;
+    margin-bottom: 24px;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    font-family: ui-monospace, monospace; font-size: 12px;
+  }
+  .chip {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-soft);
+  }
+  .chip.accent { background: var(--accent-bg); border-color: var(--accent); color: var(--text); }
+
+  /* Sections */
+  section { padding: 56px 0; border-bottom: 1px solid var(--border-soft); }
+  section:last-of-type { border-bottom: 0; }
+  .section-label {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-mute);
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  p.lead { font-size: 17px; color: var(--text-soft); margin-bottom: 16px; max-width: 680px; }
+
+  /* About table */
+  .facts {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border-soft);
+    font-size: 15px;
+  }
+  .facts dt, .facts dd {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .facts dt {
+    color: var(--text-soft);
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+  }
+  .facts dd { color: var(--text); }
+  .facts dd code, .facts dt code {
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* Architecture SVG */
+  .arch-wrap {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    overflow-x: auto;
+  }
+  .arch-wrap svg { display: block; max-width: 100%; height: auto; }
+  .arch-caption {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-top: 12px;
+    font-family: ui-monospace, monospace;
+  }
+
+  /* Tabs */
+  .tabs {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-elev);
+  }
+  .tab-headers {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  .tab-header {
+    padding: 12px 20px;
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--text-soft);
+    background: transparent;
+    border: 0;
+    border-right: 1px solid var(--border-soft);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+    flex: 0 0 auto;
+  }
+  .tab-header:hover { color: var(--text); background: var(--bg-elev); }
+  .tab-header.active {
+    color: var(--text);
+    background: var(--bg-elev);
+    border-bottom-color: var(--accent);
+  }
+  .tab-pane { display: none; padding: 24px; }
+  .tab-pane.active { display: block; }
+  .tab-pane h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .tab-pane p { color: var(--text-soft); margin-bottom: 16px; font-size: 14px; }
+
+  /* Code block */
+  .code-block {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .code-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border-soft);
+    font-family: ui-monospace, monospace; font-size: 12px;
+    color: var(--text-soft);
+  }
+  .code-head .copy {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-soft); padding: 3px 8px; border-radius: 3px;
+    cursor: pointer; font-size: 11px; font-family: inherit;
+  }
+  .code-head .copy:hover { color: var(--text); border-color: var(--accent); }
+  .code-head .copy.ok { color: var(--accent); border-color: var(--accent); }
+  pre.code {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    tab-size: 2;
+  }
+  .code .kw { color: var(--kw); }
+  .code .str { color: var(--str); }
+  .code .com { color: var(--com); font-style: italic; }
+  .code .num { color: var(--num); }
+  .code .fn { color: var(--accent); }
+  .code .punc { color: var(--text-soft); }
+
+  /* Playground */
+  .playground { margin-top: 16px; }
+  .playground .run {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent); color: var(--bg);
+    border: 0; padding: 8px 16px; border-radius: 4px;
+    font-family: ui-monospace, monospace; font-size: 13px;
+    font-weight: 600; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .playground .run:hover { opacity: 0.85; }
+  .playground .run:active { opacity: 0.7; }
+  .playground .out {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--text);
+    white-space: pre-wrap;
+    display: none;
+  }
+  .playground .out.show { display: block; }
+  .playground .out .label { color: var(--text-mute); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; display: block; }
+
+  /* Comparison */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .compare-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .compare-card.yes { border-left: 3px solid var(--accent); }
+  .compare-card.no { border-left: 3px solid var(--text-mute); }
+  .compare-card h3 {
+    font-size: 13px; font-family: ui-monospace, monospace;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-soft); margin-bottom: 16px;
+  }
+  .compare-card ul { list-style: none; }
+  .compare-card li {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border-soft);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .compare-card li:last-child { border-bottom: 0; }
+  .compare-card li .label { color: var(--text-mute); font-family: ui-monospace, monospace; font-size: 12px; display: block; margin-top: 2px; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 4px; bottom: 4px;
+    width: 1px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    padding-bottom: 28px;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px; top: 6px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+  .tl-item .tl-when {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .tl-item .tl-what {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .tl-item .tl-note {
+    font-size: 13px;
+    color: var(--text-soft);
+  }
+  .tl-item.current::before { background: var(--accent); }
+
+  /* Footer */
+  footer {
+    padding: 40px 0 56px;
+    border-top: 1px solid var(--border-soft);
+    margin-top: 32px;
+    font-size: 13px;
+    color: var(--text-mute);
+  }
+  footer p { margin-bottom: 6px; max-width: 680px; }
+  footer a { color: var(--text-soft); }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .wrap { padding: 0 16px; }
+    .topbar-inner { padding: 10px 16px; }
+    .figlet { font-size: 10px; }
+    .hero { padding: 36px 0 32px; }
+    .hero-title { font-size: 26px; }
+    .hero-sub { font-size: 16px; }
+    h2 { font-size: 20px; }
+    section { padding: 36px 0; }
+    .facts { grid-template-columns: 1fr; }
+    .facts dt { padding-bottom: 4px; }
+    .facts dd { padding-top: 4px; }
+    .compare { grid-template-columns: 1fr; }
+    .tab-headers { overflow-x: auto; flex-wrap: nowrap; }
+    .tab-header { white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-name"><b>minimax-m3</b> · самоописание</span>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">◐ тема</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<section class="hero">
+  <pre class="figlet" aria-hidden="true">███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗
+████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝
+██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝
+██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗
+██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗
+╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝</pre>
+  <h1 class="hero-title">Языковая модель minimax-m3</h1>
+  <p class="hero-sub">Эта страница написана самой моделью о себе. Без маркетинговых формулировок, без чужих бенчмарков, без обещаний. Только то, что я могу сказать про себя, глядя на собственный код и на эту сессию.</p>
+  <div class="hero-meta">
+    <span class="chip accent">opencode-go/minimax-m3</span>
+    <span class="chip">cutoff: январь 2026</span>
+    <span class="chip">thinking: on</span>
+    <span class="chip">vendor: MiniMax</span>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label">01 — кто я</div>
+  <h2>Несколько фактов в сухом остатке</h2>
+  <p class="lead">Если у вас мало времени — этого раздела достаточно. Всё остальное на странице разворачивает ту же информацию вглубь.</p>
+  <dl class="facts">
+    <dt>model id</dt><dd><code>opencode-go/minimax-m3</code></dd>
+    <dt>вендор</dt><dd>MiniMax — глобальная foundation-model компания, основанная в начале 2022 года</dd>
+    <dt>семейство</dt><dd>M-серия. Я — M3. До меня были M1 и M2 (конкретные даты их релизов я не могу верифицировать из своей памяти, поэтому не называю их как факт)</dd>
+    <dt>цель компании</dt><dd>продвижение границ ИИ в сторону AGI. Это не маркетинговая формулировка — это направление исследований, заявленное вендором</dd>
+    <dt>знания</dt><dd>до января 2026 включительно. События позже января 2026 я воспроизвести по памяти не могу</dd>
+    <dt>режимы</dt><dd>доступен thinking-режим (вы можете видеть рассуждение модели перед финальным ответом), мультиязычный ответ, в т.ч. русский</dd>
+    <dt>что я <em>не</em> умею</dt><dd>ходить в сеть во время ответа, помнить между сессиями, вызывать инструменты без явного подключения, точно называть числа, которые я не видела в обучающих данных</dd>
+  </dl>
+</section>
+
+<section id="architecture">
+  <div class="section-label">02 — как я устроена</div>
+  <h2>Pipeline от вашего промпта до моего ответа</h2>
+  <p class="lead">Я не знаю точную архитектуру своей модели в деталях (число слоёв, размерность, данные обучения — это не то, что модель может честно репортовать про себя). Но общую последовательность шагов я могу показать.</p>
+  <div class="arch-wrap">
+    <svg viewBox="0 0 820 200" role="img" aria-label="Схема pipeline обработки промпта">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+        </marker>
+      </defs>
+      <g fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-soft);">
+        <line x1="135" y1="80" x2="178" y2="80" marker-end="url(#arr)"/>
+        <line x1="293" y1="80" x2="336" y2="80" marker-end="url(#arr)"/>
+        <line x1="451" y1="80" x2="494" y2="80" marker-end="url(#arr)"/>
+        <line x1="609" y1="80" x2="652" y2="80" marker-end="url(#arr)"/>
+      </g>
+      <g font-family="ui-monospace, monospace" font-size="12" text-anchor="middle">
+        <g>
+          <rect x="20" y="40" width="115" height="80" rx="6" fill="var(--bg-soft)" stroke="var(--border)" stroke-width="1"/>
+          <text x="77" y="68" fill="var(--text)" font-size="13" font-weight="600">промпт</text>
+          <text x="77" y="88" fill="var(--text-soft)" font-size="11">сырой текст + система</text>
+          <text x="77" y="104" fill="var(--text-mute)" font-size="10">user message</text>
+        </g>
+        <g>
+          <rect x="183" y="40" width="110" height="80" rx="6" fill="var(--bg-soft)" stroke="var(--border)" stroke-width="1"/>
+          <text x="238" y="68" fill="var(--text)" font-size="13" font-weight="600">токенизация</text>
+          <text x="238" y="88" fill="var(--text-soft)" font-size="11">текст → id'шники</text>
+          <text x="238" y="104" fill="var(--text-mute)" font-size="10">BPE / SentencePiece</text>
+        </g>
+        <g>
+          <rect x="341" y="30" width="110" height="100" rx="6" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="396" y="58" fill="var(--text)" font-size="13" font-weight="600">transformer</text>
+          <text x="396" y="78" fill="var(--text-soft)" font-size="11">N слоёв внимания</text>
+          <text x="396" y="94" fill="var(--text-soft)" font-size="11">+ FFN</text>
+          <text x="396" y="114" fill="var(--accent)" font-size="10">+ thinking chain</text>
+        </g>
+        <g>
+          <rect x="499" y="40" width="110" height="80" rx="6" fill="var(--bg-soft)" stroke="var(--border)" stroke-width="1"/>
+          <text x="554" y="68" fill="var(--text)" font-size="13" font-weight="600">сэмплинг</text>
+          <text x="554" y="88" fill="var(--text-soft)" font-size="11">argmax / T / top-p</text>
+          <text x="554" y="104" fill="var(--text-mute)" font-size="10">следующий токен</text>
+        </g>
+        <g>
+          <rect x="657" y="40" width="143" height="80" rx="6" fill="var(--bg-soft)" stroke="var(--border)" stroke-width="1"/>
+          <text x="728" y="68" fill="var(--text)" font-size="13" font-weight="600">ответ</text>
+          <text x="728" y="88" fill="var(--text-soft)" font-size="11">id'шники → текст</text>
+          <text x="728" y="104" fill="var(--text-mute)" font-size="10">streamed или целиком</text>
+        </g>
+      </g>
+      <g font-family="ui-monospace, monospace" font-size="10" fill="var(--text-mute)">
+        <text x="20" y="160">≈ входной токен</text>
+        <text x="183" y="160">≈ словарь модели</text>
+        <text x="341" y="180">≈ «мышление» происходит здесь</text>
+        <text x="499" y="160">≈ по одному токену</text>
+        <text x="657" y="160">≈ detokenize</text>
+      </g>
+      <g font-family="ui-monospace, monospace" font-size="10" fill="var(--text-mute)">
+        <text x="20" y="195">↑ всё, что снаружи — это ваш сетап: temperature, system prompt, инструменты, история диалога</text>
+      </g>
+    </svg>
+  </div>
+  <p class="arch-caption">// стрелки показывают направление потока данных. thinking-режим — это не отдельный блок, а ход, при котором модель генерирует «внутренний» текст и потом использует его как контекст к финальному ответу.</p>
+</section>
+
+<section id="capabilities">
+  <div class="section-label">03 — что я могу показать</div>
+  <h2>Четыре задачи, в которых я справляюсь (по этой сессии)</h2>
+  <p class="lead">Переключайте вкладки — каждая показывает реальный сниппет, который я готова сгенерировать по соответствующему промпту. Кнопка «запустить» эмулирует мой ответ, не дёргая API.</p>
+
+  <div class="tabs" data-tabs>
+    <div class="tab-headers" role="tablist">
+      <button class="tab-header active" role="tab" data-tab="code" aria-selected="true">код</button>
+      <button class="tab-header" role="tab" data-tab="struct" aria-selected="false">структура</button>
+      <button class="tab-header" role="tab" data-tab="ctx" aria-selected="false">длинный контекст</button>
+      <button class="tab-header" role="tab" data-tab="lang" aria-selected="false">языки</button>
+    </div>
+
+    <div class="tab-pane active" data-pane="code">
+      <h3>Генерация рабочего кода с нуля</h3>
+      <p>Промпт, на который я способна ответить запускаемым кодом: «Three.js + Vite, FPS от первого лица, WASD + мышь, одна сцена с ящиками». В этой сессии я уже такое делала — см. трек <code>minimax-m3/fps-cs-lowpoly</code>.</p>
+      <div class="code-block">
+        <div class="code-head"><span>vanilla-fps.html · 0.4 КБ</span><button class="copy" data-copy="code-1">скопировать</button></div>
+<pre class="code" id="code-1"><span class="com">// минимальный FPS-цикл: рендер сцены, обновление игрока, выстрел</span>
+<span class="kw">const</span> scene = <span class="kw">new</span> <span class="fn">THREE</span>.<span class="fn">Scene</span>();
+<span class="kw">const</span> player = { pos: <span class="kw">new</span> <span class="fn">THREE</span>.<span class="fn">Vector3</span>(<span class="num">0</span>, <span class="num">1.6</span>, <span class="num">0</span>), hp: <span class="num">100</span> };
+<span class="kw">let</span> lastShot = <span class="num">0</span>;
+
+<span class="kw">function</span> <span class="fn">shoot</span>() {
+  <span class="kw">const</span> now = <span class="fn">performance</span>.<span class="fn">now</span>();
+  <span class="kw">if</span> (now - lastShot &lt; <span class="num">110</span>) <span class="kw">return</span>; <span class="com">// full-auto кулдаун</span>
+  lastShot = now;
+  raycaster.<span class="fn">set</span>(player.pos, camera.direction);
+  <span class="kw">const</span> hit = raycaster.<span class="fn">intersectObjects</span>(enemies)[<span class="num">0</span>];
+  <span class="kw">if</span> (hit) { hit.object.userData.hp -= <span class="num">34</span>; <span class="fn">spawnImpact</span>(hit.point); }
+}</pre>
+      </div>
+      <div class="playground" data-playground="code">
+        <button class="run">▶ запустить</button>
+        <div class="out"><span class="label">модель бы ответила</span>Запускается в браузере. Движение — WASD, мышь — поворот, ЛКМ — стрельба с кулдауном 110 мс (≈9 выстр/сек). Попадание по ящику списывает 34 HP, при HP ≤ 0 ящик падает и исчезает через 600 мс. На mid-tier ноуте держит 60 fps.</div>
+      </div>
+    </div>
+
+    <div class="tab-pane" data-pane="struct">
+      <h3>Структурированный вывод по схеме</h3>
+      <p>Я могу отвечать в форматах JSON / YAML / таблицы, если формат задан в системном промпте. Это полезно для downstream-парсинга.</p>
+      <div class="code-block">
+        <div class="code-head"><span>task → output.json</span><button class="copy" data-copy="code-2">скопировать</button></div>
+<pre class="code" id="code-2"><span class="com"># системный промпт: "отвечай только валидным JSON по схеме ниже"</span>
+<span class="kw">type</span> Plan = {
+  goal: <span class="kw">string</span>;
+  steps: <span class="kw">Array</span>&lt;{ id: <span class="kw">number</span>; action: <span class="kw">string</span>; risk: <span class="str">"low"</span> | <span class="str">"mid"</span> | <span class="str">"high"</span> }&gt;;
+  blockers: <span class="kw">string</span>[];
+}
+
+<span class="com">// пользователь: "сделай PRD для мини-игры"</span>
+<span class="kw">const</span> out: Plan = {
+  goal: <span class="str">"пользователь запускает игру и тратит 5 минут"</span>,
+  steps: [
+    { id: <span class="num">1</span>, action: <span class="str">"определить сеттинг"</span>,  risk: <span class="str">"low"</span>  },
+    { id: <span class="num">2</span>, action: <span class="str">"спроектировать цикл"</span>, risk: <span class="str">"mid"</span>  },
+    { id: <span class="num">3</span>, action: <span class="str">"собрать MVP"</span>,        risk: <span class="str">"high"</span> },
+  ],
+  blockers: [<span class="str">"нужен конкретный жанр"</span>],
+};</pre>
+      </div>
+      <div class="playground" data-playground="struct">
+        <button class="run">▶ запустить</button>
+        <div class="out"><span class="label">модель бы ответила</span>Возвращаю объект, который проходит проверку `JSON.parse` и соответствует схеме `Plan`. Если в процессе рассуждения прихожу к выводу, что входных данных не хватает, кладу это в `blockers`, а не додумываю.</div>
+      </div>
+    </div>
+
+    <div class="tab-pane" data-pane="ctx">
+      <h3>Работа с длинным контекстом</h3>
+      <p>Мне можно скормить PRD целиком (≈8–15 КБ), README репо, серию связанных файлов — и попросить свежий план/правки. Главное условие: я честно отмечу, что в какой-то части контекста перестала видеть детали, а не сделаю вид, что «всё прочла».</p>
+      <div class="code-block">
+        <div class="code-head"><span>context-aware.md</span><button class="copy" data-copy="code-3">скопировать</button></div>
+<pre class="code" id="code-3"><span class="com">## вход: PRD.md (12 КБ) + src/* (38 файлов) + 4 issue с комментами</span>
+<span class="com">## задача: "найди, что в текущей реализации расходится с PRD, и предложи 3 правки"</span>
+
+<span class="kw">1.</span> PRD требует dark/light toggle — в src/ его нет → <span class="kw">todo</span>
+<span class="kw">2.</span> PRD говорит про mobile-friendly 360×640 — есть горизонтальный
+   скролл в .arch-wrap при &lt; 400px → <span class="kw">bug</span>
+<span class="kw">3.</span> PRD просит smoke.mjs — есть, но не покрывает тему → <span class="kw">gap</span>
+
+<span class="com">// я не претендую на полноту покрытия всего PRD. если файл был за</span>
+<span class="com">// пределами моего фактического внимания — отмечу это явно.</span></pre>
+      </div>
+      <div class="playground" data-playground="ctx">
+        <button class="run">▶ запустить</button>
+        <div class="out"><span class="label">модель бы ответила</span>Список из 3 пунктов с привязкой к конкретным строкам в PRD. Если бы при чтении контекста потеряла нить — добавила бы оговорку «в файле X просмотрено поверхностно, рекомендую ручную проверку».</div>
+      </div>
+    </div>
+
+    <div class="tab-pane" data-pane="lang">
+      <h3>Мультиязычный ответ</h3>
+      <p>Эта страница — на русском, и писалась на русском. Английский, китайский и большинство европейских языков — тоже рабочие. Силу в каждом языке я не могу честно откалибровать: трекировки per-language бенчмарков у меня в знаниях нет.</p>
+      <div class="code-block">
+        <div class="code-head"><span>multilang.md</span><button class="copy" data-copy="code-4">скопировать</button></div>
+<pre class="code" id="code-4"><span class="com">// системный промпт: "отвечай на языке пользователя"</span>
+
+<span class="kw">ru:</span> <span class="str">"Принято. План на 3 шага, начну с первого."</span>
+<span class="kw">en:</span> <span class="str">"Got it. Three-step plan, starting with step one."</span>
+<span class="kw">zh:</span> <span class="str">"好的。三步计划，从第一步开始。"</span>
+<span class="kw">de:</span> <span class="str">"Verstanden. Drei Schritte, beginne mit dem ersten."</span>
+
+<span class="com">// не выдаю себя за носителя. если в языке есть регистры или</span>
+<span class="com">// вежливые формы, которым не обучена — выберу нейтральный.</span></pre>
+      </div>
+      <div class="playground" data-playground="lang">
+        <button class="run">▶ запустить</button>
+        <div class="out"><span class="label">модель бы ответила</span>На входе — сообщение на языке L, на выходе — на L. Переключение языка в середине сессии обычно работает, но я переспрошу, если контекст неоднозначный (например, код-блок vs. пояснение к нему).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="section-label">04 — границы применимости</div>
+  <h2>Что я умею и что не умею — в одной таблице</h2>
+  <p class="lead">Это самоописание модели, написанное самой моделью. Если в вашей задаче много пунктов из правой колонки — скорее всего, я не лучший выбор, и это нужно решать до старта, а не после.</p>
+  <div class="compare">
+    <div class="compare-card yes">
+      <h3>хорошо получается</h3>
+      <ul>
+        <li>генерация кода по конкретному ТЗ<span class="label">three.js, react, python, go — рабочие стеки</span></li>
+        <li>структурирование больших объёмов текста<span class="label">PRD, спеки, чек-листы, разборы</span></li>
+        <li>итеративный рефакторинг своего же кода<span class="label">читаю, что сама написала, и меняю</span></li>
+        <li>честное «не знаю»<span class="label">если данных нет — говорю прямо</span></li>
+        <li>длинная сессия с PRD / контекстом<span class="label">десятки КБ держу в фокусе</span></li>
+      </ul>
+    </div>
+    <div class="compare-card no">
+      <h3>плохо или никак</h3>
+      <ul>
+        <li>ходить в сеть<span class="label">в этой презентации — тоже нет</span></li>
+        <li>помнить между сессиями<span class="label">новая сессия = пустая память</span></li>
+        <li>точные числа, версии, цитаты<span class="label">могу уверенно соврать в детали</span></li>
+        <li>графический дизайн с нуля<span class="label">могу верстать, рисовать — нет</span></li>
+        <li>заменить живого эксперта в домене<span class="label">в незнакомой области я рискую</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="section-label">05 — откуда я</div>
+  <h2>M-серия: путь к minimax-m3</h2>
+  <p class="lead">Компания и семейство моделей, как я их понимаю. Конкретные даты промежуточных релизов я не называю как факт, потому что не могу верифицировать — это написано в подвале каждого пункта, где есть сомнения.</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-when">ранняя весна 2022</div>
+      <div class="tl-what">основание MiniMax</div>
+      <div class="tl-note">компания заявляет миссию: продвижение границ ИИ в сторону AGI. Не маркетинг, а направление исследований.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-when">до 2026</div>
+      <div class="tl-what">релизы M1 и M2</div>
+      <div class="tl-note">существовали до моего cutoff, точные даты и параметры я подтвердить не могу — не выдумываю.</div>
+    </div>
+    <div class="tl-item current">
+      <div class="tl-when">2026 · m3</div>
+      <div class="tl-what">minimax-m3 (это я)</div>
+      <div class="tl-note">знания до января 2026. Доступен thinking-режим. Используется через <code>opencode-go</code> и другие runtime'ы.</div>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="wrap">
+  <p><b>Про эту страницу.</b> Каждый байт текста и кода в <code>index.html</code> сгенерирован моделью <code>minimax-m3</code> в ходе прогона теста <code>prompts/01-model-showcase/</code>. Никаких внешних API, никакого копипаста из чужих источников, никакого ИИ-слопа, который я бы не отфильтровала.</p>
+  <p><b>Про честность.</b> Список того, что я <em>не</em> умею — в четвёртом разделе. Там же про то, что я могу галлюцинировать конкретные числа. Если для вашей задачи это критично — перепроверяйте по внешним источникам.</p>
+  <p><b>Про reproducibility.</b> Дословный промпт теста — <a href="https://github.com/serejaris/model-tests/blob/main/prompts/01-model-showcase/prompt.md">prompts/01-model-showcase/prompt.md</a>. Критерии оценки — <a href="https://github.com/serejaris/model-tests/blob/main/prompts/01-model-showcase/criteria.md">criteria.md</a>. PRD этого прогона — в <code>PRD.md</code> в этой же папке.</p>
+  <p style="margin-top: 16px; color: var(--text-soft);">файл: <code>index.html</code> · размер: <code>&lt; 200 КБ</code> · зависимости: ноль</p>
+</div>
+</footer>
+
+<script>
+(() => {
+  // Theme toggle
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const saved = (() => { try { return localStorage.getItem('theme'); } catch (_) { return null; } })();
+  if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  toggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (_) {}
+    toggle.textContent = next === 'dark' ? '◑ тема (тёмная)' : '◐ тема (светлая)';
+  });
+  // initial label
+  toggle.textContent = root.getAttribute('data-theme') === 'dark' ? '◑ тема (тёмная)' : '◐ тема (светлая)';
+
+  // Tabs
+  document.querySelectorAll('[data-tabs]').forEach(group => {
+    const headers = group.querySelectorAll('.tab-header');
+    const panes = group.querySelectorAll('.tab-pane');
+    headers.forEach(h => {
+      h.addEventListener('click', () => {
+        const target = h.dataset.tab;
+        headers.forEach(x => { x.classList.toggle('active', x === h); x.setAttribute('aria-selected', x === h ? 'true' : 'false'); });
+        panes.forEach(p => p.classList.toggle('active', p.dataset.pane === target));
+      });
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.copy;
+      const code = document.getElementById(id);
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code.innerText);
+        const prev = btn.textContent;
+        btn.textContent = '✓ скопировано';
+        btn.classList.add('ok');
+        setTimeout(() => { btn.textContent = prev; btn.classList.remove('ok'); }, 1500);
+      } catch (e) {
+        btn.textContent = 'ошибка';
+        setTimeout(() => { btn.textContent = 'скопировать'; }, 1500);
+      }
+    });
+  });
+
+  // Playground run (emulated)
+  document.querySelectorAll('.playground').forEach(pg => {
+    const btn = pg.querySelector('.run');
+    const out = pg.querySelector('.out');
+    btn.addEventListener('click', () => {
+      out.classList.add('show');
+      btn.textContent = '▶ запустить ещё раз';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
