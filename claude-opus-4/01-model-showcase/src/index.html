@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Opus 4.8 — визитка модели</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0d10'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23e8a33d'/%3E%3C/svg%3E">
+<meta name="description" content="Self-contained визитка про Claude Opus 4.8: что за модель, чем сильна, как с ней работать. Один HTML, без сети.">
+<style>
+  :root {
+    --bg: #0b0d10;
+    --bg-elev: #13171c;
+    --bg-elev2: #181d23;
+    --line: #242b33;
+    --line-soft: #1c222a;
+    --ink: #e9ecef;
+    --ink-dim: #9aa4ad;
+    --ink-faint: #6a737c;
+    --accent: #e8a33d;
+    --accent-ink: #1a1206;
+    --teal: #4fd1c5;
+    --violet: #b08cff;
+    --rose: #ff8a8a;
+    --radius: 14px;
+    --maxw: 1080px;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  }
+  [data-theme="light"] {
+    --bg: #f6f4ef;
+    --bg-elev: #ffffff;
+    --bg-elev2: #fbfaf7;
+    --line: #e3ddd1;
+    --line-soft: #ece7dc;
+    --ink: #1b1e22;
+    --ink-dim: #565f68;
+    --ink-faint: #8a929a;
+    --accent: #b9751a;
+    --accent-ink: #fff7ec;
+    --teal: #138b80;
+    --violet: #6c4fd1;
+    --rose: #c0392b;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; margin: 0; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); display: inline-block; }
+
+  section { padding: 72px 0; border-top: 1px solid var(--line-soft); }
+  .section-head { margin-bottom: 36px; max-width: 720px; }
+  .section-head h2 { font-size: clamp(24px, 4.4vw, 36px); font-weight: 650; }
+  .section-head p { color: var(--ink-dim); font-size: 16px; margin: 14px 0 0; }
+
+  /* top bar */
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .brand { font-family: var(--mono); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; display: flex; align-items: center; gap: 9px; }
+  .brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+  .nav { display: flex; gap: 22px; align-items: center; }
+  .nav a { color: var(--ink-dim); font-size: 13px; font-family: var(--mono); }
+  .nav a:hover { color: var(--ink); text-decoration: none; }
+  .theme-btn {
+    font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+    background: var(--bg-elev); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px 11px; cursor: pointer; display: inline-flex; gap: 7px; align-items: center;
+  }
+  .theme-btn:hover { color: var(--ink); border-color: var(--accent); }
+  @media (max-width: 720px) { .nav a:not(.theme-wrap) { display: none; } }
+
+  /* hero */
+  .hero { padding: 88px 0 64px; position: relative; border-top: none; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 0%, transparent 72%);
+    opacity: 0.6;
+  }
+  .hero h1 { font-size: clamp(34px, 7vw, 66px); font-weight: 720; letter-spacing: -0.035em; }
+  .hero h1 .v { color: var(--accent); }
+  .hero .lede { font-size: clamp(17px, 2.4vw, 21px); color: var(--ink-dim); max-width: 660px; margin: 22px 0 0; }
+  .hero .lede b { color: var(--ink); font-weight: 600; }
+  .maker { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); margin-top: 14px; }
+  .maker b { color: var(--teal); font-weight: 600; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--bg-elev); border-radius: 10px;
+    padding: 11px 14px; min-width: 0;
+  }
+  .chip .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+  .chip .v { font-size: 18px; font-weight: 650; margin-top: 3px; }
+  .chip .v small { font-size: 12px; color: var(--ink-dim); font-weight: 500; }
+
+  /* generic card */
+  .card { background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 820px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* about */
+  .about-body { font-size: 17px; color: var(--ink); }
+  .about-body p { margin: 0 0 16px; }
+  .about-body p.dim { color: var(--ink-dim); }
+  .pull {
+    border-left: 2px solid var(--accent); padding: 4px 0 4px 18px; margin: 22px 0;
+    font-size: 18px; color: var(--ink);
+  }
+
+  /* diagram */
+  .diagram-card { padding: 26px 22px 14px; overflow: hidden; }
+  svg.flow { width: 100%; height: auto; display: block; }
+  .flow-legend { display: flex; flex-wrap: wrap; gap: 16px 26px; margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+  .flow-legend span { font-family: var(--mono); font-size: 12px; color: var(--ink-dim); display: inline-flex; gap: 8px; align-items: center; }
+  .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  /* playground / effort */
+  .pg { display: grid; grid-template-columns: 1.05fr 1fr; gap: 18px; }
+  @media (max-width: 860px) { .pg { grid-template-columns: 1fr; } }
+  .pg-panel { padding: 22px; }
+  .pg-label { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.1em; }
+  .effort-name { font-size: 30px; font-weight: 700; margin: 6px 0 2px; font-family: var(--mono); }
+  .effort-name .lv { color: var(--accent); }
+  .effort-desc { color: var(--ink-dim); font-size: 15px; min-height: 44px; }
+  input[type="range"] { width: 100%; margin: 20px 0 6px; accent-color: var(--accent); height: 26px; }
+  .ticks { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+  .ticks b { color: var(--accent); font-weight: 600; }
+  .gauge { display: flex; gap: 6px; margin: 20px 0 8px; }
+  .gauge i { height: 10px; flex: 1; border-radius: 3px; background: var(--line); transition: background .25s, box-shadow .25s; }
+  .gauge i.on { background: var(--accent); }
+  .gauge-meta { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--ink-dim); }
+
+  .demo-out { padding: 22px; display: flex; flex-direction: column; }
+  .demo-q { font-family: var(--mono); font-size: 13px; color: var(--ink-dim); padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px dashed var(--line); }
+  .demo-q b { color: var(--ink); }
+  .demo-a { font-size: 15px; flex: 1; white-space: pre-wrap; }
+  .demo-think { font-family: var(--mono); font-size: 12.5px; color: var(--teal); opacity: .9; margin-bottom: 12px; white-space: pre-wrap; }
+  .demo-tag { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line-soft); }
+
+  /* capabilities accordion */
+  details.cap { border: 1px solid var(--line); border-radius: 12px; background: var(--bg-elev); margin-bottom: 12px; overflow: hidden; }
+  details.cap > summary {
+    list-style: none; cursor: pointer; padding: 18px 20px; display: flex; align-items: center; gap: 14px;
+    font-weight: 600; font-size: 16px;
+  }
+  details.cap > summary::-webkit-details-marker { display: none; }
+  details.cap .tag { font-family: var(--mono); font-size: 11px; color: var(--accent-ink); background: var(--accent); padding: 3px 8px; border-radius: 999px; margin-left: auto; white-space: nowrap; }
+  details.cap[open] > summary { border-bottom: 1px solid var(--line-soft); }
+  details.cap .body { padding: 6px 20px 20px; color: var(--ink-dim); font-size: 15px; }
+  details.cap .body code { font-family: var(--mono); font-size: 13px; color: var(--teal); background: var(--bg-elev2); padding: 1px 6px; border-radius: 5px; }
+  .chev { width: 9px; height: 9px; border-right: 2px solid var(--ink-faint); border-bottom: 2px solid var(--ink-faint); transform: rotate(-45deg); transition: transform .2s; }
+  details.cap[open] .chev { transform: rotate(45deg); }
+
+  /* code tabs */
+  .code-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-elev); }
+  .tabs { display: flex; gap: 2px; padding: 8px 8px 0; background: var(--bg-elev2); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .tab {
+    font-family: var(--mono); font-size: 13px; color: var(--ink-dim); background: transparent;
+    border: 1px solid transparent; border-bottom: none; padding: 9px 15px; cursor: pointer; border-radius: 9px 9px 0 0;
+  }
+  .tab[aria-selected="true"] { color: var(--ink); background: var(--bg-elev); border-color: var(--line); }
+  .code-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line-soft); }
+  .code-head .fname { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+  .copy-btn { font-family: var(--mono); font-size: 12px; color: var(--ink-dim); background: var(--bg-elev2); border: 1px solid var(--line); border-radius: 7px; padding: 5px 10px; cursor: pointer; }
+  .copy-btn:hover { color: var(--ink); border-color: var(--accent); }
+  pre { margin: 0; padding: 18px 16px; overflow-x: auto; font-family: var(--mono); font-size: 13px; line-height: 1.62; }
+  pre code { color: var(--ink); }
+  .tok-c { color: var(--ink-faint); font-style: italic; } /* comment */
+  .tok-s { color: var(--teal); }   /* string */
+  .tok-k { color: var(--violet); } /* keyword */
+  .tok-n { color: var(--accent); } /* number / literal */
+  .tok-f { color: var(--ink); }
+  .codepanel { display: none; }
+  .codepanel.active { display: block; }
+
+  /* api surface honesty */
+  .surf { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 820px) { .surf { grid-template-columns: 1fr; } }
+  .surf .row { padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-elev); }
+  .surf .row .h { font-family: var(--mono); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 9px; }
+  .surf .row .h .mark { font-family: var(--mono); font-weight: 700; }
+  .surf .row.no .h .mark { color: var(--rose); }
+  .surf .row.yes .h .mark { color: var(--teal); }
+  .surf .row p { margin: 9px 0 0; color: var(--ink-dim); font-size: 14px; }
+  .surf code { font-family: var(--mono); font-size: 12.5px; color: var(--ink); background: var(--bg-elev2); padding: 1px 5px; border-radius: 5px; }
+
+  /* comparison table */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; }
+  thead th { text-align: left; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); padding: 14px 16px; border-bottom: 1px solid var(--line); font-weight: 500; }
+  tbody td { padding: 14px 16px; border-bottom: 1px solid var(--line-soft); color: var(--ink-dim); }
+  tbody td:first-child { color: var(--ink); font-weight: 600; }
+  tbody td .id { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); display: block; font-weight: 400; margin-top: 2px; }
+  tbody tr.self td { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  tbody tr.self td:first-child { color: var(--accent); }
+  .num { font-family: var(--mono); }
+  .table-note { font-size: 13px; color: var(--ink-faint); margin-top: 12px; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--line); padding: 48px 0 64px; color: var(--ink-faint); }
+  footer .grid { display: flex; flex-wrap: wrap; gap: 28px 56px; justify-content: space-between; }
+  footer h4 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin: 0 0 10px; }
+  footer p { margin: 0; font-size: 13.5px; max-width: 460px; line-height: 1.7; }
+  .demo-badge { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border: 1px dashed var(--line); border-radius: 7px; padding: 3px 8px; display: inline-block; }
+
+  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: 13px; padding: 9px 16px; border-radius: 9px; opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 90; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> claude-opus-4-8</div>
+    <nav class="nav">
+      <a href="#about">Что это</a>
+      <a href="#effort">Effort</a>
+      <a href="#api">API</a>
+      <a href="#family">Семейство</a>
+      <button class="theme-btn" id="themeBtn" aria-label="Сменить тему">
+        <span id="themeIcon">◐</span><span id="themeLabel">light</span>
+      </button>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Anthropic · семейство Claude 4.x · Opus-tier</p>
+    <h1>Claude Opus <span class="v">4.8</span></h1>
+    <p class="lede">Самая способная модель Opus-уровня от Anthropic: <b>автономная работа на длинной дистанции</b>, инженерные задачи, рассуждение и память. Эта страница — её визитка, собранная ею же про себя.</p>
+    <p class="maker">сделала: <b>Anthropic</b> · ID: <code style="font-family:var(--mono)">claude-opus-4-8</code> · 1M-вариант: <code style="font-family:var(--mono)">claude-opus-4-8[1m]</code></p>
+
+    <div class="chips">
+      <div class="chip"><div class="k">Контекст</div><div class="v">1M <small>токенов</small></div></div>
+      <div class="chip"><div class="k">Макс. вывод</div><div class="v">128K <small>токенов</small></div></div>
+      <div class="chip"><div class="k">Цена / 1M</div><div class="v">$5 <small>in</small> · $25 <small>out</small></div></div>
+      <div class="chip"><div class="k">Knowledge cutoff</div><div class="v">янв 2026</div></div>
+      <div class="chip"><div class="k">Мышление</div><div class="v">adaptive</div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Что это за модель</p>
+      <h2>Большая языковая модель, заточенная под агентные задачи</h2>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <div class="about-body">
+        <p>Opus 4.8 — верхний по способностям ярус линейки Claude 4.x. Тот же ярус, что Opus 4.7 и 4.6, но новее: лучше держит длинные автономные прогоны, точнее находит баги, пишет понятнее и теплее.</p>
+        <p>Работает через единственный эндпоинт <code style="font-family:var(--mono);color:var(--teal)">/v1/messages</code>: текст, vision, tool use, structured output и серверные инструменты — всё это параметры одного запроса, а не отдельные API.</p>
+        <p class="dim">Контекст — 1&nbsp;000&nbsp;000 токенов по стандартной цене, без наценки за длинный контекст. До 128K токенов на ответ (большие ответы — через стриминг, чтобы не упереться в таймаут HTTP).</p>
+        <div class="pull">Адаптивное мышление включено как режим: модель сама решает, сколько думать на каждый запрос, и чередует размышление с вызовами инструментов.</div>
+      </div>
+      <div class="card" style="padding:22px">
+        <p class="pg-label">Spec sheet</p>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:11px 18px;margin-top:14px;font-size:14px">
+          <span class="num" style="color:var(--ink-faint)">model_id</span><span class="num">claude-opus-4-8</span>
+          <span class="num" style="color:var(--ink-faint)">context</span><span class="num">1 000 000 токенов</span>
+          <span class="num" style="color:var(--ink-faint)">max_output</span><span class="num">128 000 токенов</span>
+          <span class="num" style="color:var(--ink-faint)">pricing</span><span class="num">$5 / $25 за 1M (in / out)</span>
+          <span class="num" style="color:var(--ink-faint)">thinking</span><span class="num">adaptive (только)</span>
+          <span class="num" style="color:var(--ink-faint)">effort</span><span class="num">low · medium · high · xhigh · max</span>
+          <span class="num" style="color:var(--ink-faint)">vision</span><span class="num">до 2576px по длинной стороне</span>
+          <span class="num" style="color:var(--ink-faint)">tokenizer</span><span class="num">общий с Opus 4.7</span>
+          <span class="num" style="color:var(--ink-faint)">cutoff</span><span class="num">январь 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGRAM -->
+<section id="flow">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Как устроен один запрос</p>
+      <h2>Промпт → цикл «мышление ⇄ инструменты» → ответ</h2>
+      <p>Один вызов <code style="font-family:var(--mono)">messages.create</code> может крутить внутренний цикл: модель думает, зовёт инструмент, читает результат, думает снова — пока не закончит. Глубину цикла регулирует параметр <code style="font-family:var(--mono)">effort</code>.</p>
+    </div>
+    <div class="card diagram-card">
+      <svg class="flow" viewBox="0 0 920 300" role="img" aria-label="Схема обработки запроса Claude Opus 4.8: промпт и контекст до 1M токенов проходят токенайзер, попадают в цикл адаптивного мышления и вызова инструментов, на выходе ответ до 128K токенов. Компакция сжимает историю у границы контекста.">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="var(--ink-faint)"/>
+          </marker>
+          <marker id="arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+          </marker>
+        </defs>
+
+        <!-- input -->
+        <rect x="14" y="96" width="150" height="108" rx="12" fill="var(--bg-elev2)" stroke="var(--line)"/>
+        <text x="89" y="128" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="14" font-weight="600">Промпт +</text>
+        <text x="89" y="148" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="14" font-weight="600">контекст</text>
+        <text x="89" y="174" text-anchor="middle" fill="var(--teal)" font-family="var(--mono)" font-size="12">до 1M токенов</text>
+
+        <!-- tokenizer -->
+        <rect x="206" y="116" width="96" height="68" rx="10" fill="var(--bg-elev2)" stroke="var(--line)"/>
+        <text x="254" y="146" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="12">токен-</text>
+        <text x="254" y="162" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="12">айзер</text>
+
+        <!-- core loop box -->
+        <rect x="344" y="60" width="320" height="180" rx="14" fill="none" stroke="var(--accent)" stroke-dasharray="5 4" opacity="0.7"/>
+        <text x="504" y="50" text-anchor="middle" fill="var(--accent)" font-family="var(--mono)" font-size="12" letter-spacing="1">OPUS 4.8 · АГЕНТНЫЙ ЦИКЛ</text>
+
+        <rect x="368" y="92" width="124" height="56" rx="10" fill="var(--bg-elev2)" stroke="var(--accent)"/>
+        <text x="430" y="118" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="12.5" font-weight="600">adaptive</text>
+        <text x="430" y="134" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="12.5" font-weight="600">thinking</text>
+
+        <rect x="516" y="92" width="124" height="56" rx="10" fill="var(--bg-elev2)" stroke="var(--teal)"/>
+        <text x="578" y="118" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="12.5" font-weight="600">tool use</text>
+        <text x="578" y="134" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="11">bash · web · code</text>
+
+        <!-- loop arrows -->
+        <path d="M492 108 L516 108" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#arrA)"/>
+        <path d="M516 132 L492 132" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#arrA)"/>
+
+        <rect x="392" y="176" width="220" height="44" rx="9" fill="none" stroke="var(--line)"/>
+        <text x="502" y="203" text-anchor="middle" fill="var(--ink-dim)" font-family="var(--mono)" font-size="11.5">effort: low · medium · high · xhigh · max</text>
+
+        <!-- output -->
+        <rect x="706" y="96" width="150" height="108" rx="12" fill="var(--bg-elev2)" stroke="var(--line)"/>
+        <text x="781" y="138" text-anchor="middle" fill="var(--ink)" font-family="var(--mono)" font-size="14" font-weight="600">Ответ</text>
+        <text x="781" y="166" text-anchor="middle" fill="var(--teal)" font-family="var(--mono)" font-size="12">до 128K токенов</text>
+
+        <!-- main arrows -->
+        <path d="M164 150 L206 150" stroke="var(--ink-faint)" stroke-width="1.6" marker-end="url(#arr)"/>
+        <path d="M302 150 L344 150" stroke="var(--ink-faint)" stroke-width="1.6" marker-end="url(#arr)"/>
+        <path d="M664 150 L706 150" stroke="var(--ink-faint)" stroke-width="1.6" marker-end="url(#arr)"/>
+
+        <!-- compaction note -->
+        <path d="M89 96 L89 70 L344 70" fill="none" stroke="var(--violet)" stroke-width="1.3" stroke-dasharray="3 3"/>
+        <text x="150" y="62" fill="var(--violet)" font-family="var(--mono)" font-size="11">compaction — сжимает историю у границы контекста</text>
+      </svg>
+      <div class="flow-legend">
+        <span><i class="swatch" style="background:var(--accent)"></i> мышление / effort</span>
+        <span><i class="swatch" style="background:var(--teal)"></i> инструменты и вывод</span>
+        <span><i class="swatch" style="background:var(--violet)"></i> управление контекстом</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EFFORT PLAYGROUND -->
+<section id="effort">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Интерактив · effort</p>
+      <h2>Один параметр — от быстрого ответа до максимальной тщательности</h2>
+      <p>Потяни ползунок. <code style="font-family:var(--mono)">output_config.effort</code> управляет тем, сколько модель думает и действует. Ниже — эмуляция того, как меняется ответ на один и тот же вопрос. Реального вызова API нет.</p>
+    </div>
+    <div class="card pg">
+      <div class="pg-panel" style="border-right:1px solid var(--line-soft)">
+        <p class="pg-label">output_config.effort</p>
+        <div class="effort-name">effort: <span class="lv" id="effLevel">high</span></div>
+        <p class="effort-desc" id="effDesc"></p>
+        <input type="range" id="effSlider" min="0" max="4" step="1" value="2" aria-label="Уровень effort">
+        <div class="ticks">
+          <span data-i="0">low</span><span data-i="1">medium</span><span data-i="2">high</span><span data-i="3">xhigh</span><span data-i="4">max</span>
+        </div>
+        <div class="gauge" id="gauge" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="gauge-meta">
+          <span>глубина мышления</span>
+          <span id="effCost"></span>
+        </div>
+      </div>
+      <div class="demo-out">
+        <div class="demo-q">запрос: <b>«посчитай 27 × 453»</b></div>
+        <div class="demo-think" id="demoThink"></div>
+        <div class="demo-a" id="demoA"></div>
+        <div class="demo-tag" id="demoTag"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section id="caps">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Чем сильна — конкретно</p>
+      <h2>Возможности, а не лозунги</h2>
+      <p>Каждый пункт — реальная фича API. Разверни, чтобы увидеть детали.</p>
+    </div>
+
+    <details class="cap" open>
+      <summary><span class="chev"></span> Адаптивное мышление + effort <span class="tag">по умолчанию</span></summary>
+      <div class="body">Вместо фиксированного «бюджета на размышление» модель сама решает, когда и сколько думать (<code>thinking: {type: "adaptive"}</code>), и чередует мышление с вызовами инструментов. Объём работы регулируется через <code>effort</code> — пять уровней от <code>low</code> до <code>max</code>. По умолчанию <code>high</code>; <code>xhigh</code> — лучший выбор для кодинга и агентных задач.</div>
+    </details>
+
+    <details class="cap">
+      <summary><span class="chev"></span> Контекст 1M + compaction <span class="tag">beta</span></summary>
+      <div class="body">Один миллион токенов входа по стандартной цене. Для долгих диалогов есть серверная компакция (<code>compact-2026-01-12</code>): у границы контекста история автоматически сжимается, и сессия продолжается без ручной нарезки.</div>
+    </details>
+
+    <details class="cap">
+      <summary><span class="chev"></span> Task budgets — бюджет на весь агентный цикл <span class="tag">beta</span></summary>
+      <div class="body">Можно сказать модели, сколько токенов у неё на всю задачу (<code>task_budget</code>, минимум 20&nbsp;000). Она видит обратный отсчёт и сама расставляет приоритеты и аккуратно завершает работу. Это отличается от <code>max_tokens</code> — жёсткого потолка на один ответ, о котором модель не знает.</div>
+    </details>
+
+    <details class="cap">
+      <summary><span class="chev"></span> Tool use, агенты и серверные инструменты</summary>
+      <div class="body">Свои инструменты (function calling) с автоматическим циклом через tool runner, плюс серверные инструменты Anthropic: web search / fetch, исполнение кода в песочнице, текстовый редактор, bash, память. Поверх — Managed Agents: Anthropic держит цикл агента и контейнер, где исполняются инструменты.</div>
+    </details>
+
+    <details class="cap">
+      <summary><span class="chev"></span> Structured outputs + prompt caching</summary>
+      <div class="body">Ответ можно жёстко привязать к JSON-схеме (<code>output_config.format</code>) — валидный парсимый вывод без префиллов. Кэширование промпта (минимум ~4096 токенов префикса для Opus 4.8) удешевляет повторяющийся контекст: чтение из кэша ≈ 0.1× от цены ввода.</div>
+    </details>
+
+    <details class="cap">
+      <summary><span class="chev"></span> Vision высокого разрешения и память</summary>
+      <div class="body">Картинки до 2576px по длинной стороне (≈3.75 Мп); координаты, которые возвращает модель, совпадают с пикселями 1:1 — полезно для computer use и разбора скриншотов. Модель лучше пишет и использует файловую память между сессиями.</div>
+    </details>
+  </div>
+</section>
+
+<!-- CODE -->
+<section id="code">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Как её позвать</p>
+      <h2>Минимальный запрос на трёх языках</h2>
+      <p>Один и тот же вызов: адаптивное мышление, effort, потоковый или обычный ответ. Переключай вкладки.</p>
+    </div>
+    <div class="code-card">
+      <div class="tabs" role="tablist" aria-label="Язык примера">
+        <button class="tab" role="tab" aria-selected="true" data-panel="py">Python</button>
+        <button class="tab" role="tab" aria-selected="false" data-panel="ts">TypeScript</button>
+        <button class="tab" role="tab" aria-selected="false" data-panel="curl">cURL</button>
+      </div>
+      <div class="code-head">
+        <span class="fname" id="codeFname">showcase.py</span>
+        <button class="copy-btn" id="copyBtn">копировать</button>
+      </div>
+
+      <div class="codepanel active" id="panel-py"><pre><code><span class="tok-k">import</span> anthropic
+
+client = anthropic.<span class="tok-f">Anthropic</span>()  <span class="tok-c"># ключ берётся из ANTHROPIC_API_KEY</span>
+
+resp = client.messages.<span class="tok-f">create</span>(
+    model=<span class="tok-s">"claude-opus-4-8"</span>,
+    max_tokens=<span class="tok-n">16000</span>,
+    thinking={<span class="tok-s">"type"</span>: <span class="tok-s">"adaptive"</span>},        <span class="tok-c"># budget_tokens больше не нужен</span>
+    output_config={<span class="tok-s">"effort"</span>: <span class="tok-s">"high"</span>},   <span class="tok-c"># low | medium | high | xhigh | max</span>
+    messages=[{<span class="tok-s">"role"</span>: <span class="tok-s">"user"</span>, <span class="tok-s">"content"</span>: <span class="tok-s">"Объясни prompt caching одним абзацем."</span>}],
+)
+
+<span class="tok-k">for</span> block <span class="tok-k">in</span> resp.content:
+    <span class="tok-k">if</span> block.type == <span class="tok-s">"text"</span>:
+        <span class="tok-f">print</span>(block.text)</code></pre></div>
+
+      <div class="codepanel" id="panel-ts"><pre><code><span class="tok-k">import</span> Anthropic <span class="tok-k">from</span> <span class="tok-s">"@anthropic-ai/sdk"</span>;
+
+<span class="tok-k">const</span> client = <span class="tok-k">new</span> <span class="tok-f">Anthropic</span>();  <span class="tok-c">// ANTHROPIC_API_KEY из окружения</span>
+
+<span class="tok-k">const</span> resp = <span class="tok-k">await</span> client.messages.<span class="tok-f">create</span>({
+  model: <span class="tok-s">"claude-opus-4-8"</span>,
+  max_tokens: <span class="tok-n">16000</span>,
+  thinking: { type: <span class="tok-s">"adaptive"</span> },        <span class="tok-c">// адаптивное мышление</span>
+  output_config: { effort: <span class="tok-s">"high"</span> },   <span class="tok-c">// low | medium | high | xhigh | max</span>
+  messages: [{ role: <span class="tok-s">"user"</span>, content: <span class="tok-s">"Объясни prompt caching одним абзацем."</span> }],
+});
+
+<span class="tok-k">for</span> (<span class="tok-k">const</span> block <span class="tok-k">of</span> resp.content)
+  <span class="tok-k">if</span> (block.type === <span class="tok-s">"text"</span>) console.<span class="tok-f">log</span>(block.text);</code></pre></div>
+
+      <div class="codepanel" id="panel-curl"><pre><code>curl https://api.anthropic.com/v1/messages \
+  -H <span class="tok-s">"x-api-key: $ANTHROPIC_API_KEY"</span> \
+  -H <span class="tok-s">"anthropic-version: 2023-06-01"</span> \
+  -H <span class="tok-s">"content-type: application/json"</span> \
+  -d <span class="tok-s">'{
+    "model": "claude-opus-4-8",
+    "max_tokens": 16000,
+    "thinking": { "type": "adaptive" },
+    "output_config": { "effort": "high" },
+    "messages": [
+      { "role": "user", "content": "Объясни prompt caching одним абзацем." }
+    ]
+  }'</span></code></pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- API SURFACE -->
+<section id="api">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Честно про API-поверхность</p>
+      <h2>Что изменилось — и что вернёт ошибку</h2>
+      <p>Opus 4.8 наследует поверхность Opus 4.7. Несколько привычек из старых моделей теперь дают <code style="font-family:var(--mono)">400</code> — лучше знать заранее.</p>
+    </div>
+    <div class="surf">
+      <div class="row no">
+        <div class="h"><span class="mark">✕ 400</span> Сэмплинг убран</div>
+        <p><code>temperature</code>, <code>top_p</code>, <code>top_k</code> больше не принимаются. Поведение задаётся промптом и <code>effort</code>, а не температурой.</p>
+      </div>
+      <div class="row no">
+        <div class="h"><span class="mark">✕ 400</span> Фиксированный бюджет мышления</div>
+        <p><code>thinking.budget_tokens</code> удалён. Только <code>{"type": "adaptive"}</code>; глубину регулирует <code>effort</code>.</p>
+      </div>
+      <div class="row no">
+        <div class="h"><span class="mark">✕ 400</span> Префилл ассистента</div>
+        <p>Нельзя «подсунуть» начало ответа последним assistant-сообщением. Для формата ответа — structured outputs или инструкция в system.</p>
+      </div>
+      <div class="row yes">
+        <div class="h"><span class="mark">✓</span> Мышление по умолчанию скрыто</div>
+        <p><code>thinking.display</code> по умолчанию <code>"omitted"</code> — блоки мышления пустые. Чтобы показать ход рассуждения, ставь <code>"summarized"</code>.</p>
+      </div>
+      <div class="row yes">
+        <div class="h"><span class="mark">✓</span> Mid-session system</div>
+        <p>Инструкции можно вставлять как <code>role: "system"</code> прямо в <code>messages</code> по ходу сессии — без инвалидации кэша (<code>beta</code>).</p>
+      </div>
+      <div class="row yes">
+        <div class="h"><span class="mark">✓</span> Большой вывод — через стриминг</div>
+        <p>До 128K токенов на ответ, но при больших <code>max_tokens</code> нужен <code>stream=True</code>, иначе HTTP-таймаут.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY -->
+<section id="family">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Где она в линейке</p>
+      <h2>Семейство Claude 4.x — честное сравнение</h2>
+      <p>Opus 4.8 — не «лучшая во всём». У каждой модели своя ниша: цена, скорость, контекст.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Модель</th>
+            <th>Контекст</th>
+            <th>Макс. вывод</th>
+            <th>$ / 1M (in / out)</th>
+            <th>Для чего</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Claude Fable 5<span class="id">claude-fable-5</span></td>
+            <td class="num">1M</td><td class="num">128K</td><td class="num">10 / 50</td>
+            <td>Самые сложные reasoning- и long-horizon-задачи</td>
+          </tr>
+          <tr class="self">
+            <td>Claude Opus 4.8 ★<span class="id">claude-opus-4-8</span></td>
+            <td class="num">1M</td><td class="num">128K</td><td class="num">5 / 25</td>
+            <td>Автономные агенты, knowledge work, кодинг</td>
+          </tr>
+          <tr>
+            <td>Claude Sonnet 4.6<span class="id">claude-sonnet-4-6</span></td>
+            <td class="num">1M</td><td class="num">64K</td><td class="num">3 / 15</td>
+            <td>Баланс скорости и интеллекта, high-volume</td>
+          </tr>
+          <tr>
+            <td>Claude Haiku 4.5<span class="id">claude-haiku-4-5</span></td>
+            <td class="num">200K</td><td class="num">64K</td><td class="num">1 / 5</td>
+            <td>Быстрые, дешёвые и простые задачи</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">★ — модель, которая собрала эту страницу. Числа — контекст, лимит вывода и цена за миллион токенов; ниша — позиционирование, а не бенчмарк.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h4>Что это за страница</h4>
+        <p>Артефакт теста <span class="num">01-model-showcase</span> из репозитория model-tests: одностраничная визитка, которую модель делает про саму себя. Один HTML-файл, без внешних зависимостей и без сети — открывается с <span class="num">file://</span>.</p>
+      </div>
+      <div>
+        <h4>Оговорки</h4>
+        <p>Playground с effort — <span class="demo-badge">эмуляция · без вызова API</span>. Числа по контексту, выводу и цене — фактические; «ниша» в таблице — позиционирование. Реальных кнопок наружу здесь нет.</p>
+      </div>
+      <div>
+        <h4>Собрано</h4>
+        <p>Claude Opus 4.8 · <span class="num">claude-opus-4-8</span><br>в режиме Claude Code · 2026-06-14<br>vanilla HTML / CSS / JS, inline SVG.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">скопировано</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- theme toggle ----
+  var root = document.documentElement;
+  var tBtn = document.getElementById("themeBtn");
+  var tIcon = document.getElementById("themeIcon");
+  var tLabel = document.getElementById("themeLabel");
+  function applyTheme(t) {
+    root.setAttribute("data-theme", t);
+    tIcon.textContent = t === "dark" ? "◐" : "◑";
+    tLabel.textContent = t === "dark" ? "light" : "dark";
+  }
+  tBtn.addEventListener("click", function () {
+    applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  // ---- effort playground ----
+  var levels = [
+    {
+      name: "low", bars: 1, cost: "минимум токенов",
+      desc: "Короткий прямой ответ. Минимум вызовов инструментов, без преамбулы. Для простых и латентно-чувствительных задач.",
+      think: "(мышление почти не используется)",
+      a: "12231",
+      tag: "// быстро и по делу — ответ без шагов"
+    },
+    {
+      name: "medium", bars: 2, cost: "сбалансированно",
+      desc: "Баланс качества и цены: немного рассуждения там, где оно помогает. Хорошая отправная точка для большинства задач.",
+      think: "27 × 453 — разложу на 27 × 450 и 27 × 3.",
+      a: "27 × 450 = 12150, 27 × 3 = 81 → 12231",
+      tag: "// показывает ключевой шаг"
+    },
+    {
+      name: "high", bars: 3, cost: "дефолт API",
+      desc: "Уровень по умолчанию. Тщательная работа и самопроверка. Рекомендуемый минимум для задач, где важен интеллект.",
+      think: "Разложу 453 = 450 + 3. Посчитаю по частям и сверю сумму.",
+      a: "27 × 450 = 12 150\n27 × 3   = 81\nИтого: 12 150 + 81 = 12 231",
+      tag: "// раскрывает рассуждение и проверяет себя"
+    },
+    {
+      name: "xhigh", bars: 4, cost: "кодинг / агенты",
+      desc: "Лучший выбор для кодинга и агентных сценариев. Дефолт в Claude Code. Больше планирования и вызовов инструментов.",
+      think: "Проверю двумя способами: 27×453 и 453×27, чтобы исключить ошибку.",
+      a: "Способ 1: 27 × (450+3) = 12 150 + 81 = 12 231\nСпособ 2: 453 × 27 = 453×20 + 453×7 = 9 060 + 3 171 = 12 231\nОба совпали → 12 231",
+      tag: "// перепроверяет результат независимым путём"
+    },
+    {
+      name: "max", bars: 5, cost: "точность > латентности",
+      desc: "Максимум корректности, не считаясь со временем и стоимостью. Для самых ответственных задач, где цена ошибки высока.",
+      think: "Посчитаю, перепроверю двумя методами и оценю порядок величины (~27×450 ≈ 12 150).",
+      a: "Прикидка: 27 × 453 ≈ 27 × 450 = 12 150 (порядок верный).\nТочно: 12 150 + 81 = 12 231.\nКонтроль 453 × 27 = 12 231.\nОтвет: 12 231.",
+      tag: "// прикидка + два независимых пересчёта"
+    }
+  ];
+
+  var slider = document.getElementById("effSlider");
+  var elLevel = document.getElementById("effLevel");
+  var elDesc = document.getElementById("effDesc");
+  var elCost = document.getElementById("effCost");
+  var elThink = document.getElementById("demoThink");
+  var elA = document.getElementById("demoA");
+  var elTag = document.getElementById("demoTag");
+  var gauge = document.getElementById("gauge").querySelectorAll("i");
+  var ticks = document.querySelectorAll(".ticks span");
+
+  function renderEffort(i) {
+    var L = levels[i];
+    elLevel.textContent = L.name;
+    elDesc.textContent = L.desc;
+    elCost.textContent = L.cost;
+    elThink.textContent = L.think;
+    elA.textContent = L.a;
+    elTag.textContent = L.tag;
+    for (var b = 0; b < gauge.length; b++) gauge[b].classList.toggle("on", b < L.bars);
+    ticks.forEach(function (t) { t.querySelector("b") || (t.innerHTML = t.textContent); });
+    ticks.forEach(function (t, ti) {
+      t.innerHTML = (ti === i) ? "<b>" + L.name + "</b>" : levels[ti].name;
+    });
+  }
+  slider.addEventListener("input", function () { renderEffort(parseInt(slider.value, 10)); });
+  renderEffort(2);
+
+  // ---- code tabs ----
+  var tabs = document.querySelectorAll(".tab");
+  var fnames = { py: "showcase.py", ts: "showcase.ts", curl: "showcase.sh" };
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) { t.setAttribute("aria-selected", "false"); });
+      tab.setAttribute("aria-selected", "true");
+      var p = tab.getAttribute("data-panel");
+      document.querySelectorAll(".codepanel").forEach(function (panel) {
+        panel.classList.toggle("active", panel.id === "panel-" + p);
+      });
+      document.getElementById("codeFname").textContent = fnames[p];
+    });
+  });
+
+  // ---- copy ----
+  var toast = document.getElementById("toast");
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(function () { toast.classList.remove("show"); }, 1400);
+  }
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var active = document.querySelector(".codepanel.active code");
+    var text = active ? active.textContent : "";
+    function done() { showToast("скопировано"); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { showToast("не удалось скопировать"); }
+      document.body.removeChild(ta);
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -21,6 +21,9 @@
 
 ## Примеры
 
+- [`claude-opus-4/01-model-showcase/`](../../claude-opus-4/01-model-showcase/) —
+  как этот тест прошла модель Claude Opus 4.8 (`claude-opus-4-8`),
+  smoke PASS, 5/5.
 - [`examples/minimax-m3/`](./examples/minimax-m3/) — как этот тест
   прошла модель `opencode-go/minimax-m3`.
 
