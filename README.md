@@ -55,8 +55,8 @@ prompts/                    # общие тест-промпты (переисп
 
 | # | Тест | Что проверяет | Артефакт |
 |---|---|---|---|
-| 01 | [prompts/01-model-showcase](./prompts/01-model-showcase/) | сайт-визитка про саму модель, без ИИ-слопа | один HTML-файл |
-| 02 | [prompts/02-3d-shooter-game](./prompts/02-3d-shooter-game/) | 3D-шутер от первого лица в браузере, low-poly, с противниками | Vite-проект |
+| 01 | [prompts/01-model-showcase](./prompts/01-model-showcase/) | сайт-визитка про саму модель, без ИИ-слопа | один HTML-файл (стек — за моделью) |
+| 02 | [prompts/02-3d-shooter-game](./prompts/02-3d-shooter-game/) | 3D-шутер от первого лица в браузере, с противниками | запускаемый проект (стек — за моделью) |
 
 Пример результата от `opencode-go/minimax-m3`:
 [examples/minimax-m3/](./prompts/01-model-showcase/examples/minimax-m3/).
@@ -66,6 +66,7 @@ prompts/                    # общие тест-промпты (переисп
 | Модель | Папка | Заметки |
 |---|---|---|
 | `minimax-m3` | [`minimax-m3/`](./minimax-m3/) | low-poly FPS (тест fps-cs-lowpoly) + model-showcase + 3d-shooter-game |
+| `kimi-k2-code` | [`kimi-k2-code/`](./kimi-k2-code/) | model-showcase |
 
 ## Трекинг
 

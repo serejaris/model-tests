@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kimi K2.7 Code — карточка модели</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --surface: #161920;
+      --surface-2: #1e222b;
+      --text: #e7ebf0;
+      --text-dim: #9aa3b2;
+      --accent: #7ee787;
+      --accent-2: #89ddff;
+      --border: #2a2f3a;
+      --shadow: rgba(0,0,0,0.35);
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    :root.light {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-2: #f0f2f5;
+      --text: #1a1d23;
+      --text-dim: #5b6270;
+      --accent: #137a28;
+      --accent-2: #075985;
+      --border: #d6dae2;
+      --shadow: rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    a { color: var(--accent-2); }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0.9rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    .theme-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 1.2rem 5rem;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      margin: 0 0 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 2.4rem 0 0.9rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero {
+      padding: 2rem 0 1rem;
+    }
+
+    .hero-meta {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero p.lead {
+      font-size: 1.15rem;
+      color: var(--text-dim);
+      max-width: 640px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .tag {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .tag.accent {
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+      margin: 1.2rem 0;
+      box-shadow: 0 4px 18px var(--shadow);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .kpi {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 0.7rem;
+      padding: 1rem;
+    }
+
+    .kpi-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--font-mono);
+    }
+
+    .kpi-label {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.4rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      padding: 0.6rem 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.92rem;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .tab:hover { color: var(--text); }
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fade 0.2s ease; }
+
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Code */
+    pre, code {
+      font-family: var(--font-mono);
+    }
+
+    pre {
+      background: #0d0f12;
+      color: #e7ebf0;
+      padding: 1rem;
+      border-radius: 0.6rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      border: 1px solid var(--border);
+    }
+
+    :root.light pre {
+      background: #f4f6f9;
+      color: #1a1d23;
+    }
+
+    .code-keyword { color: #c792ea; }
+    .code-string { color: #c3e88d; }
+    .code-comment { color: #676e95; }
+    .code-func { color: #82aaff; }
+    .code-num { color: #f78c6c; }
+    :root.light .code-keyword { color: #7c3aed; }
+    :root.light .code-string { color: #15803d; }
+    :root.light .code-comment { color: #737373; }
+    :root.light .code-func { color: #0369a1; }
+    :root.light .code-num { color: #c2410c; }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      color: var(--text-dim);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* Playground */
+    .playground label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 0.35rem;
+    }
+
+    .playground textarea {
+      width: 100%;
+      min-height: 90px;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 0.55rem;
+      padding: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      resize: vertical;
+    }
+
+    .run-btn {
+      margin-top: 0.7rem;
+      background: var(--accent);
+      color: #06240a;
+      border: none;
+      padding: 0.55rem 1.1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .run-btn:disabled { opacity: 0.6; cursor: wait; }
+
+    .playground-output {
+      margin-top: 1rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 0.55rem;
+      padding: 0.85rem;
+      min-height: 80px;
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      white-space: pre-wrap;
+      color: var(--text-dim);
+    }
+
+    .playground-output.done { color: var(--text); }
+
+    /* SVG diagram */
+    .diagram-wrap {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    .footnote {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 480px) {
+      main { padding-top: 1.5rem; }
+      h1 { font-size: 1.85rem; }
+      .kpi-value { font-size: 1.35rem; }
+      table { font-size: 0.82rem; }
+      th, td { padding: 0.5rem 0.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo"><span class="logo-dot"></span> Kimi K2.7 Code</div>
+      <button class="theme-btn" id="themeBtn" aria-label="Переключить тему">🌙 Тёмная</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-meta">Moonshot AI · coding-optimized LLM · OpenCode provider</div>
+      <h1>Kimi K2.7 Code</h1>
+      <p class="lead">
+        Модель, заточенная под код, ревью, отладку и агентные сценарии.
+        Семейство Kimi K2 — это Mixture-of-Experts архитектура с длинным контекстом и упором на точность в инженерных задачах.
+      </p>
+      <div class="tag-list">
+        <span class="tag accent">MoE</span>
+        <span class="tag">Длинный контекст</span>
+        <span class="tag">Код и агенты</span>
+        <span class="tag">Function calling</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Что это за модель</h2>
+      <p>
+        Kimi K2.7 Code — специализированная языковая модель для разработчиков.
+        В отличие от универсальных ассистентов, она заточена на программирование: генерацию кода, рефакторинг, поиск багов, написание тестов и работу в агентных контурах с инструментами.
+      </p>
+      <p>
+        Модель построена на архитектуре Mixture-of-Experts: для каждого запроса активируется подмножество экспертов, что даёт баланс между качеством и вычислительной стоимостью.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-value">256K</div>
+          <div class="kpi-label">Контекстное окно</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value">32K</div>
+          <div class="kpi-label">Максимальный output</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value">MoE</div>
+          <div class="kpi-label">Архитектура</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-value">JS/Py/Go</div>
+          <div class="kpi-label">Ориентиры по языкам</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Как устроен пайплайн</h2>
+      <p>От пользовательского запроса до ответа проходит несколько стадий: токенизация, маршрутизация экспертов, генерация и пост-обработка.</p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Пайплайн модели">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="var(--text-dim)"/>
+            </marker>
+          </defs>
+          <rect x="20" y="70" width="130" height="80" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="85" y="100" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="600">Prompt</text>
+          <text x="85" y="122" text-anchor="middle" fill="var(--text-dim)" font-size="11">текст / код</text>
+
+          <line x1="150" y1="110" x2="190" y2="110" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="200" y="70" width="130" height="80" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="265" y="100" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="600">Tokenizer</text>
+          <text x="265" y="122" text-anchor="middle" fill="var(--text-dim)" font-size="11">tokens</text>
+
+          <line x1="330" y1="110" x2="370" y2="110" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="380" y="50" width="150" height="120" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="455" y="85" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="600">MoE Router</text>
+          <circle cx="420" cy="115" r="14" fill="var(--accent)" opacity="0.25"/>
+          <circle cx="455" cy="115" r="14" fill="var(--accent-2)" opacity="0.25"/>
+          <circle cx="490" cy="115" r="14" fill="var(--accent)" opacity="0.25"/>
+          <text x="455" y="148" text-anchor="middle" fill="var(--text-dim)" font-size="11">выбор экспертов</text>
+
+          <line x1="530" y1="110" x2="570" y2="110" stroke="var(--text-dim)" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <rect x="580" y="70" width="120" height="80" rx="8" fill="var(--surface-2)" stroke="var(--border)"/>
+          <text x="640" y="100" text-anchor="middle" fill="var(--text)" font-size="13" font-weight="600">Output</text>
+          <text x="640" y="122" text-anchor="middle" fill="var(--text-dim)" font-size="11">текст / код</text>
+
+          <text x="360" y="200" text-anchor="middle" fill="var(--text-dim)" font-size="11">Роутер решает, какие эксперты отвечают за код, математику или естественный язык</text>
+        </svg>
+      </div>
+    </section>
+
+    <section>
+      <h2>Технические особенности</h2>
+      <div class="tabs" role="tablist" aria-label="Технические особенности">
+        <button class="tab active" role="tab" aria-selected="true" data-tab="code">Код</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="context">Контекст</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="agents">Агенты</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="limits">Ограничения</button>
+      </div>
+
+      <div class="tab-panel active" id="panel-code">
+        <p>Модель ориентирована на программирование: генерация функций, отладка, рефакторинг, написание тестов и разбор чужого кода. Хорошо справляется с языками, представленными в обучающей выборке: JavaScript/TypeScript, Python, Go, Rust, Java, C/C++.</p>
+        <ul>
+          <li>Сохраняет контекст между фрагментами файла.</li>
+          <li>Понимает структуру проекта: импорты, зависимости, типы.</li>
+          <li>Может предложить несколько вариантов решения с плюсами и минусами.</li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" id="panel-context">
+        <p>Длинный контекст позволяет загружать большие файлы, целые модули или длинные логи без потери связности. Для coding-сценариев это означает:</p>
+        <ul>
+          <li>Ревью пул-реквеста с несколькими изменёнными файлами.</li>
+          <li>Анализ стектрейса вместе с исходниками.</li>
+          <li>Работа с документацией и кодовой базой одновременно.</li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" id="panel-agents">
+        <p>Модель поддерживает function calling и может работать в многошаговых сценариях: читать файлы, запускать команды, проверять результат и корректировать план. Это делает её пригодной для:</p>
+        <ul>
+          <li>Инструментов разработчика в IDE.</li>
+          <li>Автоматических ревью и CI-ботов.</li>
+          <li>Сценариев «исследуй → спланируй → выполни → проверь».</li>
+        </ul>
+      </div>
+
+      <div class="tab-panel" id="panel-limits">
+        <p>Честно о границах:</p>
+        <ul>
+          <li>Знания ограничены обучающей выборкой; свежих версий библиотек может не знать.</li>
+          <li>Может галлюцинировать API, которых не существует — всегда проверяйте в документации.</li>
+          <li>Не имеет доступа к интернету, если инструменты не подключены.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Сравнение с соседними моделями</h2>
+      <p>Таблица — не рейтинг, а ориентир по профилю. Цифры условные, основаны на публичных coding-бенчмарках и типичных характеристиках семейств.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Модель</th>
+              <th>Профиль</th>
+              <th>Контекст</th>
+              <th>Сильная сторона</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Kimi K2.7 Code</strong></td>
+              <td>Coding / agents</td>
+              <td>256K / 32K out</td>
+              <td>Длинный код, рефакторинг, MoE-роутинг</td>
+            </tr>
+            <tr>
+              <td>GPT-4o</td>
+              <td>Универсальная</td>
+              <td>128K</td>
+              <td>Широта задач, мультимодальность</td>
+            </tr>
+            <tr>
+              <td>Claude 4 Sonnet</td>
+              <td>Универсальная</td>
+              <td>200K</td>
+              <td>Инструкции, анализ, безопасность</td>
+            </tr>
+            <tr>
+              <td>DeepSeek-V3</td>
+              <td>Coding / reasoning</td>
+              <td>64K+</td>
+              <td>Цена, математика, код</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Пример кода</h2>
+      <p>Генерация функции с проверкой ошибок — типичная задача, которую модель решает в одном запросе.</p>
+      <pre><code><span class="code-keyword">async function</span> <span class="code-func">fetchUser</span>(id) {
+  <span class="code-keyword">if</span> (!Number.<span class="code-func">isFinite</span>(id)) {
+    <span class="code-keyword">throw new</span> <span class="code-func">TypeError</span>(<span class="code-string">"id must be a number"</span>);
+  }
+  <span class="code-keyword">const</span> res = <span class="code-keyword">await</span> <span class="code-func">fetch</span>(<span class="code-string">`/api/users/${id}`</span>);
+  <span class="code-keyword">if</span> (!res.ok) {
+    <span class="code-keyword">throw new</span> <span class="code-func">Error</span>(<span class="code-string">`HTTP ${res.status}`</span>);
+  }
+  <span class="code-keyword">return</span> res.<span class="code-func">json</span>();
+}</code></pre>
+    </section>
+
+    <section>
+      <h2>Мини-playground</h2>
+      <div class="card playground">
+        <label for="pgInput">Напишите задачу на JavaScript</label>
+        <textarea id="pgInput" spellcheck="false">Напиши функцию throttle(fn, ms), которая не даёт fn выполняться чаще раза в ms миллисекунд.</textarea>
+        <button class="run-btn" id="pgRun">▶ Запустить</button>
+        <div class="playground-output" id="pgOutput" aria-live="polite">Нажмите «Запустить», чтобы увидеть эмулированный ответ модели.</div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Сделано как артефакт теста <code>01-model-showcase</code> в репозитории model-tests.</p>
+      <p class="footnote">Все характеристики приведены по состоянию на дату теста и могут меняться с выходом новых версий. Это демонстрационная страница, а не официальный сайт Moonshot AI.</p>
+    </footer>
+  </main>
+
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('k2-theme');
+    if (saved === 'light') root.classList.add('light');
+
+    function updateThemeLabel() {
+      const isLight = root.classList.contains('light');
+      themeBtn.textContent = isLight ? '☀️ Светлая' : '🌙 Тёмная';
+    }
+    updateThemeLabel();
+
+    themeBtn.addEventListener('click', () => {
+      root.classList.toggle('light');
+      localStorage.setItem('k2-theme', root.classList.contains('light') ? 'light' : 'dark');
+      updateThemeLabel();
+    });
+
+    // Tabs
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Playground
+    const pgRun = document.getElementById('pgRun');
+    const pgOutput = document.getElementById('pgOutput');
+    const sampleResponse = `function throttle(fn, ms) {
+  let last = 0;
+  let timer = null;
+  return function (...args) {
+    const now = Date.now();
+    const remain = ms - (now - last);
+    if (remain <= 0) {
+      clearTimeout(timer);
+      timer = null;
+      last = now;
+      fn.apply(this, args);
+    } else if (!timer) {
+      timer = setTimeout(() => {
+        last = Date.now();
+        timer = null;
+        fn.apply(this, args);
+      }, remain);
+    }
+  };
+}`;
+
+    pgRun.addEventListener('click', () => {
+      pgRun.disabled = true;
+      pgOutput.classList.remove('done');
+      pgOutput.textContent = 'Kimi K2.7 Code думает…';
+      let i = 0;
+      pgOutput.textContent = '';
+      const interval = setInterval(() => {
+        pgOutput.textContent += sampleResponse[i];
+        i++;
+        if (i >= sampleResponse.length) {
+          clearInterval(interval);
+          pgRun.disabled = false;
+          pgOutput.classList.add('done');
+        }
+      }, 4);
+    });
+  </script>
+</body>
+</html>

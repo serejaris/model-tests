@@ -1,0 +1,13 @@
+{
+  "name": "kimi-k2-code-01-model-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-file model showcase for Kimi K2.7 Code",
+  "scripts": {
+    "smoke": "node smoke.mjs",
+    "serve": "python3 -m http.server 4101 --directory src"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}
