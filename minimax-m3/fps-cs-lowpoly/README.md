@@ -4,6 +4,25 @@
 full-auto оружие, hit reaction, плавная анимация смерти. Собран,
 чтобы протестировать `opencode-go/minimax-m3` end-to-end.
 
+📋 **PRD**: [`PRD.md`](./PRD.md) — что строим, scope, метрики успеха, non-goals.
+
+## Скриншоты
+
+| Экран | Кадр |
+|---|---|
+| Title overlay | ![start](./screenshots/01-start.png) |
+| Gameplay | ![gameplay](./screenshots/02-gameplay.png) |
+| Стрельба (muzzle + tracer) | ![firing](./screenshots/03-firing.png) |
+| Победа (5/5) | ![victory](./screenshots/04-victory.png) |
+
+Скрины сняты `screenshots.mjs` через headless Puppeteer. Воспроизвести:
+
+```bash
+npm run build
+npx vite preview --host 0.0.0.0 --port 4173 &
+node screenshots.mjs
+```
+
 ## Как запустить
 
 ```bash
@@ -81,18 +100,25 @@ node smoke.mjs
 
 ```
 fps-cs-lowpoly/
-├── index.html          # HUD overlay, стили, монтаж canvas
+├── README.md
+├── PRD.md
+├── index.html
 ├── package.json
 ├── vite.config.js
-├── smoke.mjs           # Puppeteer smoke-тест
-├── src/
-│   ├── main.js         # сцена, рендер-цикл, состояние игры, auto-fire
-│   ├── world.js        # арена 60×60, ящики, столбы, бочки, лампы
-│   ├── player.js       # FPS-контроллер (WASD, прыжок, спринт, коллизии)
-│   ├── weapon.js       # viewmodel, muzzle flash, raycast-стрельба
-│   ├── bot.js          # FSM, патруль по waypoint, hit reaction, death anim
-│   ├── effects.js      # пул трассеров / декалей / искр с FIFO + fade
-│   ├── ui.js           # HP / ammo / enemies HUD, overlay
-│   └── utils.js        # AABB-коллизии, raycast-хелперы, синтез-бипы
-└── README.md
+├── smoke.mjs             # Puppeteer smoke-тест (5/5 PASS)
+├── screenshots.mjs       # Puppeteer screenshot-скрипт
+├── screenshots/          # PNG-кадры для README + issue
+│   ├── 01-start.png
+│   ├── 02-gameplay.png
+│   ├── 03-firing.png
+│   └── 04-victory.png
+└── src/
+    ├── main.js           # сцена, рендер-цикл, состояние игры, auto-fire
+    ├── world.js          # арена 60×60, ящики, столбы, бочки, лампы
+    ├── player.js         # FPS-контроллер (WASD, прыжок, спринт, коллизии)
+    ├── weapon.js         # viewmodel, muzzle flash, raycast-стрельба
+    ├── bot.js            # FSM, патруль по waypoint, hit reaction, death anim
+    ├── effects.js        # пул трассеров / декалей / искр с FIFO + fade
+    ├── ui.js             # HP / ammo / enemies HUD, overlay
+    └── utils.js          # AABB-коллизии, raycast-хелперы, синтез-бипы
 ```
