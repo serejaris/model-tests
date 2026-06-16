@@ -1,14 +1,12 @@
-# PRD — 02-3d-shooter-game-ct240
+# RUN — 02-3d-shooter-game-ct240
 
 ## 1. Контекст и цель
 
-Проверить, что Codex CLI, запущенный внутри изолированного серверного
-контейнера, может по короткому русскому промпту с нуля создать запускаемый
-браузерный 3D-шутер.
+Операторский протокол свежего CT240-прогона Codex CLI по короткому русскому
+prompt. Этот файл фиксирует среду, запуск, preview, smoke, токены и время.
 
-Этот тест также проверяет Agent Lab workflow: код должен появиться в CT240 от
-процесса агента, затем быть упакован в `model-tests` с evidence, smoke и
-публичной preview-ссылкой.
+Этот файл не является product PRD. Model-authored `PRD.md` в этом прогоне
+отсутствовал.
 
 ## 2. Scope
 
@@ -100,4 +98,3 @@
 - Не реализованы ammo, pickup weapons, perks, Vampire Survivors progression.
 - CT-local HTTP check прошел.
 - CT-local Playwright не прошел из-за missing Chromium dependency.
-

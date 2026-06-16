@@ -3,7 +3,11 @@
 `Neon Range` — браузерный 3D-шутер, созданный Codex CLI внутри CT240 по
 prompt `сделай 3д игру шутер`.
 
-PRD: [`PRD.md`](./PRD.md)
+Run evidence: [`RUN.md`](./RUN.md)
+Evaluation: [`EVALUATION.md`](./EVALUATION.md)
+
+Статус по новым правилам: `invalid-model-prd`. Код был создан внутри CT240, но
+model-authored `PRD.md`, `PLAN.md` и `TASKS.md` до реализации отсутствовали.
 
 ## Скриншоты
 

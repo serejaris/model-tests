@@ -23,7 +23,10 @@ AI-модель под тестом. Внутри папки модели сыр
 | Артефакт | Зачем |
 |---|---|
 | `prompts/<NN-slug>/prompt.md` | дословный user-промпт, чтобы тест можно было повторить |
-| `PRD.md` | цели, scope, метрики успеха, ограничения, non-goals, план работы |
+| `PRD.md` | продуктовый PRD, созданный тестируемой моделью/агентом до кода |
+| `PLAN.md` / `TASKS.md` | план и разбиение на задачи, созданные моделью до реализации |
+| `RUN.md` | операторский протокол: среда, контейнер, токены, время, preview, команды |
+| `EVALUATION.md` | операторская оценка результата по критериям prompt |
 | `src/…` | исходники, которые модель выдала по промпту |
 | `screenshots/…` | визуальные кадры UI / игры (только для фронтенда) |
 | `README.md` | как запустить, что измерили, известные проблемы |
@@ -45,11 +48,16 @@ prompts/                    # общие тест-промпты (переисп
 └── <имя-теста>/
     ├── README.md
     ├── PRD.md
+    ├── PLAN.md
+    ├── TASKS.md
+    ├── RUN.md
+    ├── EVALUATION.md
     ├── screenshots/
     └── …
 ```
 
-Полные правила — в [AGENTS.md](./AGENTS.md).
+Полные правила — в [AGENTS.md](./AGENTS.md). Визуальная схема процесса:
+[model-test-workflow.html](./model-test-workflow.html).
 
 ## Общие тесты
 
@@ -76,4 +84,5 @@ prompts/                    # общие тест-промпты (переисп
 [`serejaris/model-tests`](https://github.com/serejaris/model-tests/issues)
 по правилам skill `manager` — один epic на модель, один child-issue
 на тест, всё прокинуто в `ris © corp` Project #4. До начала работы
-по тесту в issue лежит PRD-блок; в конце — скрины и smoke-evidence.
+по тесту в issue лежит model-authored PRD-блок; в конце —
+RUN/EVALUATION, скрины и smoke-evidence.

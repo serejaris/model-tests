@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>model-tests workflow</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0f14;
+        --panel: #121922;
+        --panel2: #17212d;
+        --text: #e8f0f8;
+        --muted: #9fb0c0;
+        --line: #2b3a4a;
+        --green: #7de38d;
+        --yellow: #f2d36b;
+        --red: #ff7d7d;
+        --blue: #77b7ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(1180px, calc(100vw - 40px));
+        margin: 0 auto;
+        padding: 36px 0 56px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(34px, 5vw, 64px);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-top: 34px;
+      }
+
+      .lead {
+        max-width: 860px;
+        margin: 0 0 28px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .rule {
+        border: 1px solid var(--line);
+        background: #101821;
+        padding: 18px 20px;
+        margin: 22px 0;
+      }
+
+      .rule strong {
+        color: var(--green);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      .card {
+        min-height: 170px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        padding: 18px;
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 3px 8px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .agent {
+        border-color: rgb(125 227 141 / 45%);
+      }
+
+      .operator {
+        border-color: rgb(119 183 255 / 45%);
+      }
+
+      .invalid {
+        border-color: rgb(255 125 125 / 55%);
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 26px 0;
+        overflow-x: auto;
+      }
+
+      .step {
+        min-width: 136px;
+        border: 1px solid var(--line);
+        background: var(--panel2);
+        padding: 14px;
+      }
+
+      .step b {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--green);
+      }
+
+      .step span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+        border: 1px solid var(--line);
+      }
+
+      th,
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #101821;
+        color: var(--text);
+      }
+
+      td {
+        color: var(--muted);
+      }
+
+      code {
+        color: #d9f99d;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      .status {
+        color: var(--yellow);
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Model Test Workflow</h1>
+      <p class="lead">
+        Канонический путь для тестирования модели: продуктовый PRD, план и задачи
+        создает сама тестируемая модель в своей среде. Оператор фиксирует запуск
+        и оценку отдельно.
+      </p>
+
+      <section class="rule">
+        <strong>Главное правило:</strong>
+        <code>PRD.md</code>, <code>PLAN.md</code> и <code>TASKS.md</code> пишет
+        модель/агент до кода. Токены, контейнер, время, preview, smoke и выводы
+        живут в <code>RUN.md</code> и <code>EVALUATION.md</code>.
+      </section>
+
+      <section class="flow" aria-label="workflow stages">
+        <div class="step"><b>1. Stand</b><span>Оператор готовит CT/VM, runtime, git, preview.</span></div>
+        <div class="step"><b>2. Prompt</b><span>Модель получает исходный prompt и правила repo.</span></div>
+        <div class="step"><b>3. PRD</b><span>Модель пишет продуктовый PRD внутри среды.</span></div>
+        <div class="step"><b>4. Plan</b><span>Модель пишет PLAN.md и TASKS.md.</span></div>
+        <div class="step"><b>5. Code</b><span>Модель реализует артефакт после планирования.</span></div>
+        <div class="step"><b>6. Evidence</b><span>Оператор пишет RUN.md, smoke, screenshots.</span></div>
+        <div class="step"><b>7. Eval</b><span>Оператор пишет EVALUATION.md и обновляет issue.</span></div>
+      </section>
+
+      <section class="grid">
+        <article class="card agent">
+          <span class="tag">model-authored</span>
+          <h2>PRD.md</h2>
+          <p>
+            Только продукт: цель, scope, сценарии, механики, критерии успеха,
+            ограничения и non-goals. Без CTID, токенов, preview и комментариев
+            про тестовый стенд.
+          </p>
+        </article>
+        <article class="card agent">
+          <span class="tag">model-authored</span>
+          <h2>PLAN.md / TASKS.md</h2>
+          <p>
+            Порядок реализации, MVP, риски, task breakdown, acceptance checks.
+            Эти файлы должны появиться до первого исходника.
+          </p>
+        </article>
+        <article class="card operator">
+          <span class="tag">operator-authored</span>
+          <h2>RUN.md</h2>
+          <p>
+            Среда, контейнер, runtime, команды, токены, время, preview URL,
+            screenshots command и smoke command.
+          </p>
+        </article>
+        <article class="card operator">
+          <span class="tag">operator-authored</span>
+          <h2>EVALUATION.md</h2>
+          <p>
+            Оценка по критериям prompt, что сделала модель, что добавил оператор,
+            итоговый статус и известные провалы.
+          </p>
+        </article>
+        <article class="card invalid">
+          <span class="tag">invalid</span>
+          <h2>PRD after code</h2>
+          <p>
+            Если PRD появился после реализации или написан оператором, тест
+            получает статус <code>invalid-model-prd</code>.
+          </p>
+        </article>
+        <article class="card invalid">
+          <span class="tag">invalid</span>
+          <h2>Mixed PRD</h2>
+          <p>
+            PRD с токенами, CT240, liveboard, smoke или GitHub accounting
+            считается смешанным документом и переносится в RUN/EVALUATION.
+          </p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Файлы теста</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Файл</th>
+              <th>Автор</th>
+              <th>Содержимое</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>PRD.md</code></td>
+              <td>Модель</td>
+              <td>Продуктовая спецификация без мета-комментариев про стенд.</td>
+            </tr>
+            <tr>
+              <td><code>PLAN.md</code></td>
+              <td>Модель</td>
+              <td>Порядок реализации, MVP, риски, критерий готовности.</td>
+            </tr>
+            <tr>
+              <td><code>TASKS.md</code></td>
+              <td>Модель</td>
+              <td>Декомпозиция на задачи с acceptance checks.</td>
+            </tr>
+            <tr>
+              <td><code>RUN.md</code></td>
+              <td>Оператор</td>
+              <td>Запуск: контейнер, команды, токены, время, URL, smoke.</td>
+            </tr>
+            <tr>
+              <td><code>EVALUATION.md</code></td>
+              <td>Оператор</td>
+              <td>Оценка модели, pass/fail, gaps, финальный статус.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="rule">
+        <strong class="status">Статус текущего CT240 прогона:</strong>
+        артефакт полезен как run evidence, но model-authored PRD отсутствует.
+        По новым правилам такой прогон маркируется как
+        <code>invalid-model-prd</code> до повторного запуска.
+      </section>
+    </main>
+  </body>
+</html>
