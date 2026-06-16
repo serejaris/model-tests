@@ -68,6 +68,7 @@ prompts/                    # общие тест-промпты (переисп
 | `claude-opus-4` | [`claude-opus-4/`](./claude-opus-4/) | Claude Opus 4.8 — model-showcase (smoke PASS, 5/5) |
 | `minimax-m3` | [`minimax-m3/`](./minimax-m3/) | low-poly FPS (тест fps-cs-lowpoly) + model-showcase + 3d-shooter-game |
 | `kimi-k2-code` | [`kimi-k2-code/`](./kimi-k2-code/) | model-showcase |
+| `gpt-5-codex` | [`gpt-5-codex/`](./gpt-5-codex/) | CT240 isolated Codex run, 3d-shooter-game smoke PASS |
 
 ## Трекинг
 

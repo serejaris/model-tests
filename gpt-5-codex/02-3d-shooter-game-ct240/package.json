@@ -1,0 +1,20 @@
+{
+  "name": "fresh-02-3d-shooter-game",
+  "version": "1.0.0",
+  "description": "Browser 3D shooter built with Three.js.",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "smoke": "node smoke.mjs",
+    "screenshots": "node screenshots.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "playwright": "^1.61.0"
+  },
+  "dependencies": {
+    "three": "^0.184.0"
+  }
+}
