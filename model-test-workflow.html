@@ -171,8 +171,90 @@
         color: var(--yellow);
       }
 
+      .diagram {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0 28px;
+      }
+
+      .lane {
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .lane-title {
+        border: 1px solid var(--line);
+        background: #0f151d;
+        padding: 12px;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .nodes {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .node {
+        min-width: 140px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        padding: 10px;
+        color: var(--muted);
+      }
+
+      .node strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--text);
+      }
+
+      .node.good {
+        border-color: rgb(125 227 141 / 50%);
+      }
+
+      .node.warn {
+        border-color: rgb(242 211 107 / 50%);
+      }
+
+      .node.bad {
+        border-color: rgb(255 125 125 / 55%);
+      }
+
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .check {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        padding: 12px;
+        color: var(--muted);
+      }
+
+      .check b {
+        display: block;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+
       @media (max-width: 900px) {
         .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .lane {
+          grid-template-columns: 1fr;
+        }
+
+        .checklist {
           grid-template-columns: 1fr;
         }
       }
@@ -291,6 +373,141 @@
               <td><code>EVALUATION.md</code></td>
               <td>Оператор</td>
               <td>Оценка модели, pass/fail, gaps, финальный статус.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Диаграммы путей</h2>
+        <p class="lead">
+          Эти пути нужны, чтобы не смешивать работу модели, операторскую
+          упаковку, GitHub tracking и серверный liveboard.
+        </p>
+
+        <div class="diagram" aria-label="agent and operator path diagram">
+          <div class="lane">
+            <div class="lane-title">Agent path</div>
+            <div class="nodes">
+              <div class="node good"><strong>Clean folder</strong><code>&lt;model&gt;/&lt;test&gt;/</code></div>
+              <div class="node good"><strong>PRD.md</strong>product only</div>
+              <div class="node good"><strong>PLAN.md</strong>implementation order</div>
+              <div class="node good"><strong>TASKS.md</strong>task breakdown</div>
+              <div class="node good"><strong>Code</strong>source files</div>
+              <div class="node good"><strong>README.md</strong>run docs</div>
+            </div>
+          </div>
+          <div class="lane">
+            <div class="lane-title">Operator path</div>
+            <div class="nodes">
+              <div class="node warn"><strong>Stand</strong>CT/VM/runtime/auth</div>
+              <div class="node warn"><strong>Issue</strong>epic + child</div>
+              <div class="node warn"><strong>RUN.md</strong>tokens/time/env</div>
+              <div class="node warn"><strong>Smoke</strong>commands + output</div>
+              <div class="node warn"><strong>Screens</strong>PNG evidence</div>
+              <div class="node warn"><strong>EVALUATION.md</strong>score + status</div>
+            </div>
+          </div>
+          <div class="lane">
+            <div class="lane-title">Liveboard path</div>
+            <div class="nodes">
+              <div class="node"><strong>run_id</strong>stable identity</div>
+              <div class="node"><strong>stage</strong>queued/running/smoke</div>
+              <div class="node"><strong>preview</strong>URL or subdomain</div>
+              <div class="node"><strong>heartbeat</strong>updated_at</div>
+              <div class="node"><strong>links</strong>issue + repo path</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Git и issue gates</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Gate</th>
+              <th>Что проверяется</th>
+              <th>Дрифт-статус при провале</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>before-code</code></td>
+              <td><code>PRD.md</code>, <code>PLAN.md</code>, <code>TASKS.md</code> появились до source files.</td>
+              <td><code>invalid-model-prd</code></td>
+            </tr>
+            <tr>
+              <td><code>issue-open</code></td>
+              <td>Child issue содержит model-authored PRD, W-label, parent epic, Project #4.</td>
+              <td><code>tracking-drift</code></td>
+            </tr>
+            <tr>
+              <td><code>commit</code></td>
+              <td>Commit message содержит <code>Refs: serejaris/model-tests#N</code>.</td>
+              <td><code>git-drift</code></td>
+            </tr>
+            <tr>
+              <td><code>package</code></td>
+              <td><code>RUN.md</code>, <code>EVALUATION.md</code>, screenshots и smoke result на месте.</td>
+              <td><code>evidence-drift</code></td>
+            </tr>
+            <tr>
+              <td><code>final</code></td>
+              <td>README ссылается на PRD/RUN/EVALUATION, smoke и screenshots.</td>
+              <td><code>docs-drift</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Agent handoff contract</h2>
+        <div class="checklist">
+          <div class="check"><b>Input</b>Дословный prompt из <code>prompts/&lt;NN-slug&gt;/prompt.md</code>.</div>
+          <div class="check"><b>Boundary</b>Работать только в своей папке теста, без чтения чужих решений до PRD.</div>
+          <div class="check"><b>Order</b>Сначала <code>PRD.md</code>, затем <code>PLAN.md</code>, затем <code>TASKS.md</code>, затем код.</div>
+          <div class="check"><b>Product PRD</b>В PRD нет контейнера, токенов, liveboard, smoke или оценки модели.</div>
+          <div class="check"><b>Git</b>Каждый commit связан с child issue через <code>Refs:</code>.</div>
+          <div class="check"><b>Output</b>Запускаемый артефакт, README, screenshots, smoke command.</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Анти-дрифт правила</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Риск</th>
+              <th>Правило</th>
+              <th>Файл фиксации</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Оператор написал PRD за модель</td>
+              <td>PRD признается невалидным, переносится в RUN или EVALUATION.</td>
+              <td><code>EVALUATION.md</code></td>
+            </tr>
+            <tr>
+              <td>Мета-инфраструктура попала в PRD</td>
+              <td>Удалить из PRD, перенести в RUN. Продуктовая спецификация остается чистой.</td>
+              <td><code>RUN.md</code></td>
+            </tr>
+            <tr>
+              <td>Код появился до PLAN/TASKS</td>
+              <td>Тест маркируется <code>invalid-model-prd</code>, нужен fresh run.</td>
+              <td><code>EVALUATION.md</code></td>
+            </tr>
+            <tr>
+              <td>Issue или Project не связаны</td>
+              <td>Создать/починить epic, child, W-label, Project #4 lane.</td>
+              <td>GitHub issue</td>
+            </tr>
+            <tr>
+              <td>Liveboard расходится с repo</td>
+              <td>Сверить run_id, preview_url, stage, issue, artifact_path.</td>
+              <td><code>RUN.md</code> + liveboard JSON</td>
             </tr>
           </tbody>
         </table>
