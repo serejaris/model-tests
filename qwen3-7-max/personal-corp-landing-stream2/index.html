@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Corp — поток 2 · от вайбкодера к CEO</title>
+<meta name="description" content="8-недельная мастерская: преврати хаотичное использование AI в личную операционную систему. Старт 23 июня 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+      colors: {
+        accent: { 50:'#ecfeff',100:'#cffafe',200:'#a5f3fc',300:'#67e8f9',400:'#22d3ee',500:'#06b6d4',600:'#0891b2',700:'#0e7490',800:'#155e75',900:'#164e63' }
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  .cta-btn { background: #0891b2; color: #fff; transition: all .2s; }
+  .cta-btn:hover { background: #0e7490; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(8,145,178,.3); }
+  .cta-btn-secondary { background: transparent; color: #0891b2; border: 2px solid #0891b2; }
+  .cta-btn-secondary:hover { background: #ecfeff; }
+  .week-card { transition: all .2s; }
+  .week-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  details[open] summary .chevron { transform: rotate(180deg); }
+  .chevron { transition: transform .2s; }
+  .fade-in { opacity: 0; transform: translateY(16px); transition: all .5s ease-out; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="bg-zinc-50 text-zinc-900 antialiased">
+
+<!-- Hero -->
+<header class="relative overflow-hidden bg-zinc-950 text-white">
+  <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 50%, #06b6d4 0%, transparent 50%), radial-gradient(circle at 80% 20%, #0891b2 0%, transparent 40%);"></div>
+  <div class="relative mx-auto max-w-5xl px-5 py-20 sm:py-28 lg:py-36">
+    <div class="inline-flex items-center gap-2 rounded-full border border-accent-500/30 bg-accent-500/10 px-4 py-1.5 text-sm font-medium text-accent-300">
+      <span class="h-2 w-2 rounded-full bg-accent-400 animate-pulse"></span>
+      Поток 2 · Старт 23 июня 2026
+    </div>
+    <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+      От вайбкодера<br class="sm:hidden"> к <span class="text-accent-400">CEO</span>
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
+      Не 8 лекций про AI. За 8 недель соберёшь рабочую операционку на своём процессе: штаб, правила, отделы, повторяемые процессы и видимые артефакты.
+    </p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a href="https://t.me/hashslash_bot?start=pc-stream2-landing" class="cta-btn inline-flex items-center justify-center rounded-lg px-8 py-4 text-base font-semibold">
+        Посмотреть программу и записаться
+        <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <a href="#program" class="cta-btn-secondary inline-flex items-center justify-center rounded-lg px-8 py-4 text-base font-semibold">
+        8 недель программы
+      </a>
+    </div>
+    <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-zinc-400">
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-accent-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        8 живых встреч
+      </div>
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-accent-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        Вторник 19:00 МСК
+      </div>
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-accent-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        23 июня — 11 августа
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Problem -->
+<section class="fade-in border-t border-zinc-200 bg-white py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Знакомо?</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Проблема не в моделях</h2>
+    <p class="mt-4 max-w-2xl text-zinc-600">Стратегия, память, координация, исполнение и проверка сложены в одну кучу — в твою голову.</p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100 text-red-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Контекст живёт в голове</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Каждый раз заново собираешь контекст для агента, вспоминаешь прошлые решения, объясняешь проект. Голова забывает — система нет.</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Ты сам — human router</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Переключаешься между проектами, агентами и инструментами. Ручная маршрутизация на каждом шаге. Система без тебя не работает.</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-100 text-yellow-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Одни и те же ошибки повторяются</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Разовые победы не становятся системой. Опыт ошибок не капитализируется — следующий запуск начинает с нуля.</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Зоопарк инструментов вместо стека</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Много инструментов, агентов и моделей — но нет минимальной сборки, которую ты понимаешь целиком и можешь перенастроить.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Transformation -->
+<section class="fade-in border-t border-zinc-200 bg-zinc-50 py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Трансформация</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Три шага от хаоса к системе</h2>
+    <div class="mt-10 grid gap-8 sm:grid-cols-3">
+      <div class="relative">
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-200 text-lg font-bold text-zinc-600">1</div>
+        <h3 class="mt-4 text-lg font-semibold">Вайбкодер</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Хаотичное использование AI: разовые промпты, контекст в голове, каждый запуск с нуля. Результат есть, но повторить дешевле не получается.</p>
+      </div>
+      <div class="relative">
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-accent-100 text-lg font-bold text-accent-700">2</div>
+        <h3 class="mt-4 text-lg font-semibold">Оператор</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Личный контур: штаб, правила, очередь задач, первый отдел. Контекст в файлах, агент получает задачу через контракт, а не через пересказ.</p>
+      </div>
+      <div class="relative">
+        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-accent-600 text-lg font-bold text-white">3</div>
+        <h3 class="mt-4 text-lg font-semibold">CEO личного контура</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Несколько отделов, единый вход, operating cycle. Ты принимаешь решения, агент исполняет. Система помнит за тебя и работает без тебя.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who -->
+<section class="fade-in border-t border-zinc-200 bg-white py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Для кого</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Это не вводный курс по AI</h2>
+    <p class="mt-4 max-w-2xl text-zinc-600">Personal Corp для людей, у которых уже есть работа, проекты и локальные победы с AI — но нет устойчивой системы.</p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2">
+      <div class="rounded-xl border border-zinc-200 p-6">
+        <h3 class="font-semibold">Основатель с несколькими проектами</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Контекст расползается между чатами, файлами и решениями, а задачи приходится каждый раз объяснять заново.</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 p-6">
+        <h3 class="font-semibold">Создатель продукта или разработчик</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">AI уже ускоряет работу, но роли, задачи и проверку результата ты всё ещё держишь вручную.</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 p-6">
+        <h3 class="font-semibold">Руководитель или эксперт</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Нужна личная операционная система, чтобы сначала навести порядок у себя, а затем переносить подход в команду.</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 p-6">
+        <h3 class="font-semibold">Консультант или фрилансер</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">По каждому клиенту копятся отдельные чаты, документы и договорённости, из которых трудно собрать повторяемый процесс.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Self-check -->
+<section class="fade-in border-t border-zinc-200 bg-zinc-50 py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wider text-green-600">Тебе сюда, если</p>
+        <ul class="mt-5 space-y-3 text-sm">
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>У тебя есть повторяемые процессы: клиенты, контент, продажи, исследования, операционка</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Ты уже получаешь локальный результат с AI, но устал от хаоса инструментов</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Нужен не ещё один инструмент, а способ перестать быть human router</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Входной критерий — не «умеет кодить», а «есть что систематизировать»</li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wider text-red-600">Скорее не сюда, если</p>
+        <ul class="mt-5 space-y-3 text-sm">
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>Нужен вводный курс по AI с нуля</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>Хочется просто набор промптов без внедрения в свою работу</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>Нужно закрыть одну разовую задачу за вечер</li>
+          <li class="flex gap-3"><svg class="mt-0.5 h-5 w-5 shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>Нужен первый путь от идеи к работающей ссылке — это ближе к Кружку</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Graduation -->
+<section class="fade-in border-t border-zinc-200 bg-white py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Результат</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Что соберёшь за 8 недель</h2>
+    <div class="mt-10 grid gap-6 sm:grid-cols-3">
+      <div class="rounded-xl border border-accent-200 bg-accent-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-600 text-white font-bold text-sm">01</div>
+        <h3 class="mt-4 font-semibold">Личный штаб</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Карта проектов, решений и правил, чтобы не объяснять контекст заново. Агент понимает твои проекты без пересказа.</p>
+      </div>
+      <div class="rounded-xl border border-accent-200 bg-accent-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-600 text-white font-bold text-sm">02</div>
+        <h3 class="mt-4 font-semibold">Несколько AI-ролей</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Входящие, исследования, материалы, отчёты и регулярные запуски — под твою работу, с понятными зонами ответственности.</p>
+      </div>
+      <div class="rounded-xl border border-accent-200 bg-accent-50 p-6">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-600 text-white font-bold text-sm">03</div>
+        <h3 class="mt-4 font-semibold">Недельный цикл</h3>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-600">Задача → роль AI → результат → проверка → правило для следующего запуска. Operating cycle на 90 дней вперёд.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Program -->
+<section id="program" class="fade-in border-t border-zinc-200 bg-zinc-50 py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Программа</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">8 недель · 8 артефактов</h2>
+    <p class="mt-4 max-w-2xl text-zinc-600">Каждая неделя — новый слой системы. Каждый урок — видимый результат, который можно показать другому человеку.</p>
+    <div class="mt-10 space-y-4" id="weeks-container">
+    </div>
+  </div>
+</section>
+
+<!-- Format -->
+<section class="fade-in border-t border-zinc-200 bg-white py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Формат</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Как проходит мастерская</h2>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-100 text-accent-600">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="mt-4 font-semibold">Живые встречи</h3>
+        <p class="mt-1 text-sm text-zinc-600">Zoom, 1.5 часа, вторник 19:00 МСК</p>
+      </div>
+      <div class="text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-100 text-accent-600">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 class="mt-4 font-semibold">Артефакт каждую неделю</h3>
+        <p class="mt-1 text-sm text-zinc-600">Файл, скриншот, ссылка — то, что можно показать</p>
+      </div>
+      <div class="text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-100 text-accent-600">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <h3 class="mt-4 font-semibold">Малая группа</h3>
+        <p class="mt-1 text-sm text-zinc-600">До 15 человек, партнёрский формат</p>
+      </div>
+      <div class="text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent-100 text-accent-600">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="mt-4 font-semibold">2 месяца</h3>
+        <p class="mt-1 text-sm text-zinc-600">23 июня — 11 августа 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="fade-in border-t border-zinc-200 bg-zinc-950 py-16 sm:py-20 text-white">
+  <div class="mx-auto max-w-3xl px-5 text-center">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-400">Стоимость</p>
+    <div class="mt-6">
+      <span class="text-5xl font-extrabold sm:text-6xl">39 000 ₽</span>
+    </div>
+    <p class="mt-4 text-lg text-zinc-400">8 живых встреч · 2 месяца · все материалы</p>
+    <div class="mt-8 rounded-xl border border-zinc-700 bg-zinc-900 p-6 text-left">
+      <h3 class="font-semibold text-white">Что входит</h3>
+      <ul class="mt-4 space-y-2 text-sm text-zinc-300">
+        <li class="flex gap-2"><span class="text-accent-400">+</span> 8 живых встреч в Zoom по 1.5 часа</li>
+        <li class="flex gap-2"><span class="text-accent-400">+</span> Записи всех встреч</li>
+        <li class="flex gap-2"><span class="text-accent-400">+</span> Стартовые шаблоны и артефакты</li>
+        <li class="flex gap-2"><span class="text-accent-400">+</span> Чат потока и поддержка между встречами</li>
+        <li class="flex gap-2"><span class="text-accent-400">+</span> Доступ к базе знаний и навыкам программы</li>
+      </ul>
+    </div>
+    <a href="https://t.me/hashslash_bot?start=pc-stream2-landing" class="cta-btn mt-8 inline-flex items-center justify-center rounded-lg px-10 py-4 text-lg font-semibold">
+      Записаться на поток 2
+      <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+    <p class="mt-4 text-sm text-zinc-500">Старт 23 июня · Вторник 19:00 МСК</p>
+  </div>
+</section>
+
+<!-- Author + proof -->
+<section class="fade-in border-t border-zinc-200 bg-white py-16 sm:py-20">
+  <div class="mx-auto max-w-5xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Автор</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Сережа Рис</h2>
+    <p class="mt-4 max-w-2xl text-zinc-600">Собрал личную корпорацию на себе: 10 AI-отделов, 34+ автоматизированных процесса. Показывает свою работу и помогает собрать твою.</p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-xl border border-zinc-200 p-5 text-center">
+        <div class="text-3xl font-extrabold text-accent-600">10</div>
+        <p class="mt-1 text-sm text-zinc-600">потоков Кружка Вайбкодинга</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 p-5 text-center">
+        <div class="text-3xl font-extrabold text-accent-600">159+</div>
+        <p class="mt-1 text-sm text-zinc-600">выпускников</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 p-5 text-center">
+        <div class="text-3xl font-extrabold text-accent-600">4 000+</div>
+        <p class="mt-1 text-sm text-zinc-600">подписчиков YouTube</p>
+      </div>
+      <div class="rounded-xl border border-zinc-200 p-5 text-center">
+        <div class="text-3xl font-extrabold text-accent-600">5 000</div>
+        <p class="mt-1 text-sm text-zinc-600">визитов sereja.tech из поиска / мес</p>
+      </div>
+    </div>
+    <div class="mt-10 rounded-xl border border-zinc-200 bg-zinc-50 p-6 sm:p-8">
+      <h3 class="font-semibold">Что говорят выпускники потока 1</h3>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2">
+        <blockquote class="text-sm leading-relaxed text-zinc-600">
+          <p>«Запойный вайбкодинг 40 дней. Провёл аудит agents.md, Granola-брейншторм с братом, собрал Personal Corp как фреймворк для клиентов.»</p>
+          <footer class="mt-3 font-medium text-zinc-900">Иван Евсюков, @podznakom_tg</footer>
+        </blockquote>
+        <blockquote class="text-sm leading-relaxed text-zinc-600">
+          <p>«Почувствовал себя вайбкодером, разобрал бэклог. Антиквариат на Битриксе получил воронку и автогенерацию.»</p>
+          <footer class="mt-3 font-medium text-zinc-900">Олег Паршенцев</footer>
+        </blockquote>
+        <blockquote class="text-sm leading-relaxed text-zinc-600">
+          <p>«Fable за 72 часа закрыл 80% плана. Цель — инструмент продаж, а не игрушка. Сняла обвязки, где плохо перформили, переосмыслила цели.»</p>
+          <footer class="mt-3 font-medium text-zinc-900">Идель</footer>
+        </blockquote>
+        <blockquote class="text-sm leading-relaxed text-zinc-600">
+          <p>«Закончил консилиум-сборку, вышел Trainer Fusion. Объединяю мнения нескольких моделей — это мой проект потока.»</p>
+          <footer class="mt-3 font-medium text-zinc-900">Алексей, @Shiva_Mart</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="fade-in border-t border-zinc-200 bg-zinc-50 py-16 sm:py-20">
+  <div class="mx-auto max-w-3xl px-5">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent-600">Вопросы</p>
+    <h2 class="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Частые вопросы</h2>
+    <div class="mt-10 space-y-3" id="faq-container">
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="fade-in border-t border-zinc-200 bg-white py-16 sm:py-24">
+  <div class="mx-auto max-w-3xl px-5 text-center">
+    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Готов собрать свою личную корпорацию?</h2>
+    <p class="mt-4 text-lg text-zinc-600">Старт 23 июня. 8 вторников. Один контур, который останется с тобой после курса.</p>
+    <a href="https://t.me/hashslash_bot?start=pc-stream2-landing" class="cta-btn mt-8 inline-flex items-center justify-center rounded-lg px-10 py-4 text-lg font-semibold">
+      Записаться на поток 2
+      <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+    <p class="mt-4 text-sm text-zinc-500">39 000 ₽ · Вторник 19:00 МСК · Zoom</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-zinc-200 bg-zinc-950 py-8 text-center text-sm text-zinc-500">
+  <p>Personal Corp · Сережа Рис · <a href="https://sereja.tech" class="text-accent-400 hover:text-accent-300">sereja.tech</a></p>
+</footer>
+
+<script>
+const WEEKS = [
+  {num:1,date:"23 июня",trackTitle:"Личная система",title:"Личная система с первым экраном",goal:"Собираешь личный штаб: место для правды по проектам, правила для агента и первый экран состояния.",artifact:"Папка штаба, файл правил и экран состояния с текущими проектами.",tools:["Папки","Правила для агента","Claude / Codex","Экран состояния"]},
+  {num:2,date:"30 июня",trackTitle:"Регулярный агент",title:"Первый агент по расписанию",goal:"Первый AI-помощник на расписании: роль, задача, результат и журнал работы.",artifact:"Рабочий агент по расписанию: запуск, результат, журнал и правило проверки.",tools:["Расписание","Telegram / бот","Автоматизация","Журнал запусков"]},
+  {num:3,date:"7 июля",trackTitle:"Входящие и контакты",title:"Входящие как рабочие карточки",goal:"Входящие перестают теряться в чатах. Сырьё превращается в карточки и следующий шаг.",artifact:"Процесс входящих: карточки с источником, статусом и следующим действием.",tools:["Telegram","Карточки клиентов","Шаблон карточки","Источники"]},
+  {num:4,date:"14 июля",trackTitle:"Отдел исследований",title:"Исследование под решение",goal:"Агент ищет, фильтрует, проверяет и отдаёт короткий документ для решения.",artifact:"Исследовательская записка: вопрос, источники, факты, вывод и следующий шаг.",tools:["Браузер","Исследовательская записка","Журнал источников","Чек-лист"]},
+  {num:5,date:"21 июля",trackTitle:"Серверный агент",title:"Серверный агент и runtime-контур",goal:"Переносишь один агентный процесс из локального чата в стабильную среду.",artifact:"Proof packet: repo/context, очередь задачи, runtime, пример результата.",tools:["GitHub Issues","task.md","SSH","Hermes","Логи"]},
+  {num:6,date:"28 июля",trackTitle:"Производство материалов",title:"Материал по повторяемому процессу",goal:"Повторяемый способ делать материалы: бриф, промпт, результат, проверка, каталог.",artifact:"Пакет материала: бриф, промпт, результат, проверка и инструкция для повтора.",tools:["Генерация изображений","Журнал промптов","Каталог","Review"]},
+  {num:7,date:"4 августа",trackTitle:"Пульт управления",title:"Единый вход для задач",goal:"Один вход для задач и маршрут до результата: команда, отдел, статус, результат.",artifact:"Рабочий маршрут задачи: команда, отдел, статус, результат и проверка.",tools:["Telegram","Трекер задач","Карта ролей","Менеджер"]},
+  {num:8,date:"11 августа",trackTitle:"Рабочий цикл",title:"Рабочий ритм на 90 дней",goal:"Набор отделов превращается в живую систему: что работает, что убрать, что повторять.",artifact:"Итоговая карта системы: что работает, ритм и план на 90 дней.",tools:["Ретро","Карта системы","План 90 дней","Чистка правил"]}
+];
+
+const FAQ = [
+  {q:"Нужно ли уметь программировать?",a:"Нет. Входной критерий — не «умеет кодить», а «есть что систематизировать». Среди выпускников потока 1 — предприниматели, маркетологи, дизайнеры и разработчики."},
+  {q:"Чем отличается от Кружка Вайбкодинга?",a:"Кружок продаёт путь «идея → первый продукт / ссылка». Personal Corp — «моя работа → личная операционная система». Если у тебя уже есть повторяемые процессы и локальные победы с AI — тебе сюда."},
+  {q:"Что если я пропущу встречу?",a:"Все встречи записываются. Запись доступна в течение потока. Домашнее задание можно сдать в своём темпе."},
+  {q:"Какие инструменты нужны?",a:"Минимальный набор: Claude ($100/мес) или Codex (бесплатно), любой текстовый редактор, Telegram. Конкретные инструменты обсуждаются на первой встрече под твою задачу."},
+  {q:"Подойдёт ли для команды?",a:"Personal Corp — про личную систему. Сначала собираешь на себе, потом при желании переносишь в команду. Для командного формата нужен отдельный формат с диагностикой."},
+  {q:"Что остаётся после курса?",a:"Личный штаб, несколько AI-ролей, operating cycle на 90 дней, чат выпускников. Система остаётся с тобой — это не подписка, которую отключаешь."},
+  {q:"Можно ли вернуть деньги?",a:"Если после первой встречи понимаешь, что не твоё — возвращаем полную стоимость. После второй встречи возврат не предусмотрен."}
+];
+
+function renderWeeks() {
+  const container = document.getElementById('weeks-container');
+  WEEKS.forEach(w => {
+    const el = document.createElement('details');
+    el.className = 'week-card rounded-xl border border-zinc-200 bg-white';
+    el.innerHTML = `
+      <summary class="flex cursor-pointer items-center gap-4 p-5 sm:p-6">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent-600 text-sm font-bold text-white">${w.num}</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-medium text-accent-600">${w.date} · ${w.trackTitle}</p>
+          <h3 class="mt-0.5 font-semibold text-zinc-900 truncate">${w.title}</h3>
+        </div>
+        <svg class="chevron h-5 w-5 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </summary>
+      <div class="border-t border-zinc-100 px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
+        <p class="text-sm leading-relaxed text-zinc-600">${w.goal}</p>
+        <div class="mt-4 rounded-lg bg-zinc-50 p-4">
+          <p class="text-xs font-semibold uppercase tracking-wider text-zinc-500">Артефакт недели</p>
+          <p class="mt-1 text-sm font-medium text-zinc-800">${w.artifact}</p>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-2">
+          ${w.tools.map(t => `<span class="inline-flex items-center rounded-md bg-accent-50 px-2.5 py-1 text-xs font-medium text-accent-700">${t}</span>`).join('')}
+        </div>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function renderFaq() {
+  const container = document.getElementById('faq-container');
+  FAQ.forEach(f => {
+    const el = document.createElement('details');
+    el.className = 'rounded-xl border border-zinc-200 bg-white';
+    el.innerHTML = `
+      <summary class="flex cursor-pointer items-center justify-between gap-4 p-5">
+        <h3 class="font-medium text-zinc-900">${f.q}</h3>
+        <svg class="chevron h-5 w-5 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </summary>
+      <div class="border-t border-zinc-100 px-5 pb-5 pt-4">
+        <p class="text-sm leading-relaxed text-zinc-600">${f.a}</p>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function initFadeIn() {
+  const els = document.querySelectorAll('.fade-in');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => observer.observe(el));
+}
+
+renderWeeks();
+renderFaq();
+initFadeIn();
+</script>
+</body>
+</html>
