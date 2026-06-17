@@ -65,6 +65,7 @@ prompts/                    # общие тест-промпты (переисп
 |---|---|---|---|
 | 01 | [prompts/01-model-showcase](./prompts/01-model-showcase/) | маркетинговый сайт про модель (свободный дизайн, v2), без ИИ-слопа | один HTML-файл (стек — за моделью) |
 | 02 | [prompts/02-3d-shooter-game](./prompts/02-3d-shooter-game/) | 3D-шутер от первого лица в браузере, с противниками | запускаемый проект (стек — за моделью) |
+| 03 | [prompts/03-multiplayer-pve-fps](./prompts/03-multiplayer-pve-fps/) | автономный full-stack: co-op PvE survival FPS, authoritative Rust-сервер, мультиплеер, деплой до публичного URL | развёрнутый сервис (Rust-бэкенд + браузерный 3D-клиент) с живой ссылкой |
 
 Пример результата от `opencode-go/minimax-m3`:
 [examples/minimax-m3/](./prompts/01-model-showcase/examples/minimax-m3/).
